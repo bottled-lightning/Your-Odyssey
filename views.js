@@ -1,4 +1,6 @@
-var applesauceView = Backbone.View.extend({
+airplaneSource="airportlist.json"
+
+var flightSelectorView = Backbone.View.extend({
 	initialize: function(){
 		this.render();
 	},
@@ -7,6 +9,12 @@ var applesauceView = Backbone.View.extend({
 		//in this case is adding a template
 		//this template can be found in templates.js
 		//if we were attaching js functions, they'd go here
-		this.$el.append(appleSauceTemplate());
+		this.$el.append(flightSelectorTemplate());
+		$('.ui.dropdown')
+			.dropdown()
+		;
+		$('.ui.calendar').calendar({
+			type: 'date'
+		});
 	}
 });
