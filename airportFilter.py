@@ -13,5 +13,6 @@ for i in data:
 		continue
 	post_process.append(i)
 	print i
+post_process=sorted(post_process, key=lambda x: x['iata'])
 with open('airportlist.json', 'w') as outfile:
 	json.dump(post_process, outfile)

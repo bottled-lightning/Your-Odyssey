@@ -10,6 +10,11 @@ var flightSelectorView = Backbone.View.extend({
 		//this template can be found in templates.js
 		//if we were attaching js functions, they'd go here
 		this.$el.append(flightSelectorTemplate());
+		$.getJSON(airplaneSource, function(json) {
+		    _.each(json, function(airport){
+				$('.airport-list').append(airportTemplate(airport));
+			});
+		});
 		$('.ui.dropdown')
 			.dropdown()
 		;

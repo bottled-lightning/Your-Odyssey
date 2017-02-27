@@ -1,32 +1,31 @@
+var airportTemplate = _.template(`
+	<div class="item" data-value="<%= iata%>"><%= iata%>-<%= name%></div>
+`);
 var flightSelectorTemplate = _.template(`
 	<img src="images/background.jpg" class="splash">
 	<div class="selector-card">
 		<div class="title">Your Odyssey</div>
 		<div class="ui inverted form">
 			<div class="row">
-				<div class="wrapper">
+				<div class="wrapper-wide">
 					<label>Flying from</label>
-					<div class="ui fluid search selection dropdown">
+					<div class="ui fluid flow search selection dropdown">
 						<input type="hidden" name="from">
 						<i class="dropdown icon"></i>
 						<label>Flying from: </label>
 						<div class="default text">Choose one</div>
 						<div class="menu airport-list">
-							<div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
-							<div class="item" data-value="ax"><i class="ax flag"></i>Aland Islands</div>
 						</div>
 					</div>
 				</div>
-				<div class="wrapper">
+				<div class="wrapper-wide">
 					<label>Flying to</label>
-					<div class="ui fluid search selection dropdown">
+					<div class="ui fluid flow search selection dropdown">
 						<input type="hidden" name="to">
 						<i class="dropdown icon"></i>
 						<label>Flying to: </label>
 						<div class="default text">Choose one</div>
 						<div class="menu airport-list">
-							<div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
-							<div class="item" data-value="ax"><i class="ax flag"></i>Aland Islands</div>
 						</div>
 					</div>
 				</div>
