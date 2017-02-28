@@ -5,25 +5,23 @@ var flightSelectorTemplate = _.template(`
 	<img src="images/background.jpg" class="splash">
 	<div class="selector-card">
 		<div class="title">Your Odyssey</div>
-		<div class="ui inverted form">
+		<div class="ui form">
 			<div class="row">
 				<div class="wrapper-wide">
-					<label>Flying from</label>
+					<label class="white">Flying from</label>
 					<div class="ui fluid flow search selection dropdown">
 						<input type="hidden" name="from">
 						<i class="dropdown icon"></i>
-						<label>Flying from: </label>
 						<div class="default text">Choose one</div>
 						<div class="menu airport-list">
 						</div>
 					</div>
 				</div>
 				<div class="wrapper-wide">
-					<label>Flying to</label>
+					<label class="white">Flying to</label>
 					<div class="ui fluid flow search selection dropdown">
 						<input type="hidden" name="to">
 						<i class="dropdown icon"></i>
-						<label>Flying to: </label>
 						<div class="default text">Choose one</div>
 						<div class="menu airport-list">
 						</div>
@@ -32,10 +30,9 @@ var flightSelectorTemplate = _.template(`
 			</div>
 			<div class="row">
 				<div class="wrapper">
-					<label>Adults (18+)</label>
+					<label class="white">Adults (18+)</label>
 					<div class="ui selection fluid dropdown">
 						<input type="hidden" name="adults">
-						<label>Adults: </label>
 						<i class="dropdown icon"></i>
 						<div class="default text">1</div>
 						<div class="menu">
@@ -49,10 +46,9 @@ var flightSelectorTemplate = _.template(`
 					</div>
 				</div>
 				<div class="wrapper">
-					<label>Children (0-17)</label>
+					<label class="white">Children (0-17)</label>
 					<div class="ui fluid selection dropdown">
 						<input type="hidden" name="children">
-						<label>Children: </label>
 						<i class="dropdown icon"></i>
 						<div class="default text">0</div>
 						<div class="menu">
@@ -67,7 +63,7 @@ var flightSelectorTemplate = _.template(`
 					</div>
 				</div>
 				<div class="wrapper">
-					<label>Reward program</label>
+					<label class="white">Reward program</label>
 					<div class="ui fluid selection dropdown">
 						<input type="hidden" name="program">
 						<i class="dropdown icon"></i>
@@ -81,7 +77,7 @@ var flightSelectorTemplate = _.template(`
 			</div>
 			<div class="row">
 				<div class="wrapper-static">
-					<label>Departing</label>
+					<label class="white">Departing</label>
 					<div class="ui fluid calendar">
 					    <div class="ui input left icon">
 					    <i class="calendar icon"></i>
@@ -90,7 +86,7 @@ var flightSelectorTemplate = _.template(`
 					</div>
 				</div>
 				<div class="wrapper-static">
-					<label>Returning</label>
+					<label class="white">Returning</label>
 					<div class="ui fluid calendar">
 					    <div class="ui input left icon">
 					    <i class="calendar icon"></i>
