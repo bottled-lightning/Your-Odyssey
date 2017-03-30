@@ -1,8 +1,13 @@
-body{
-	background-color: white;
+/*Classes that will apply in all domains*/
+
+.title{
+	color: white;
+	font-weight: 600;
+	font-size: 24px;
+	padding: 10px;
 }
 .splash {
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
     left: 0px;
@@ -11,56 +16,181 @@ body{
     min-width: 1280px;
 	min-height: 960px;
 }
-.content{
-	width: 100%;
+
+/*Classes that apply only to the flightSearchTemplate*/
+.flightSearch{
+	.content{
+		width: 100%;
+		height: 100%;
+		min-width: 1280px;
+		min-height: 960px;
+	}
+	.selector-card {
+		margin: auto;
+		background-color: black;
+		opacity: .7;
+		border-radius: 10px;
+		position: absolute;
+		top: 30%;
+		left: 50%;
+		/* bring your own prefixes */
+		transform: translate(-50%, 0%);
+		padding: 15px;
+		min-width: 800px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	}
+	.row{
+		display: flex;
+		flex-direction: row;
+	}
+	.wrapper{
+		padding: 10px;
+		flex-grow: 1;
+		width: 100%;
+	}
+	.wrapper-wide{
+		padding: 10px;
+		flex-grow: 1;
+		width: 100%;
+	}
+	.wrapper-static{
+		padding: 10px;
+		min-width: 200px;
+	}
+	.inverted{
+		color: white;
+	}
+	.wspw{
+		white-space: pre-wrap;
+	}
+	.white{
+		color: white;
+	}
+}
+
+/*Classes that apply only to the flightSelectorTemplate*/
+.flightSelector{
 	height: 100%;
-	min-width: 1280px;
-	min-height: 960px;
-}
-.selector-card {
-	margin: auto;
-	background-color: black;
-	opacity: .7;
-	border-radius: 10px;
-	position: absolute;
-	top: 30%;
-	left: 50%;
-	/* bring your own prefixes */
-	transform: translate(-50%, 0%);
-	padding: 15px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-.row{
-	display: flex;
-	flex-direction: row;
-}
-.wrapper{
-	padding: 10px;
-	flex-grow: 1;
 	width: 100%;
+	.header-bar{
+		width: 100%;
+		background: #1c1c1c;
+		border-bottom: 1px solid #101010;
+	}
+	.info-bar{
+		width: 100%;
+		background: #eeeeee;
+		display: flex;
+		direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		flex-grow: 1;
+		padding: 5px;
+		border-bottom: 1px solid #cccccc;
+	}
+	.column-display{
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+	}
+	.centered{
+		flex-grow: 1;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+	}
+	.page{
+		background-color: rgba(128,128,128,0.0);
+		max-width: 1000px;
+		min-height: 100%;
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+	}
+	.filter-bar{
+		background: pink;
+	}
+	.flight-bin{
+		flex-grow: 1;
+		height: auto;
+		margin-bottom: 250px;
+	}
+	.info-element{
+		margin: 5px;
+	}
+	.info-header{
+		font-weight: 500;
+		font-size: 1em;
+		color: gray;
+	}
+	.info-content{
+		font-weight: 600;
+		font-size: 1.25em;
+		color: #6666ee;
+	}
+	.info-wrapper{
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		max-width: 1000px;
+		justify-content: space-between;
+		flex-grow: 1;
+	}
+	.filter-bar{
+		border-radius: 10px;
+		border-color: black;
+		background-color: #eaeaea;
+		padding-left: 15px;
+		padding-right: 15px;
+		margin-top: 10px;
+	}
+	.active{
+		background-color: #dddddd !important;
+	}
+	.dense{
+		margin: 0px !important;
+	}
 }
-.wrapper-wide{
-	padding: 10px;
-	flex-grow: 1;
-	width: 100%;
-	min-width: 3756px;
-}
-.wrapper-static{
-	padding: 10px;
-	min-width: 200px;
-}
-.inverted{
-	color: white;
-}
-.wspw{
-	white-space: pre-wrap;
-}
-.title{
-	color: white;
+
+/*Classes that only apply to the flightCardTemplate*/
+.flightCard{
 	font-weight: 600;
-	font-size: 24px;
-	padding: 10px;
-}
-.white{
-	color: white;
+	.card-top{
+		background-color: #2e6294;
+		font-size: 1.25em;
+		margin-top: 10px;
+		display: flex;
+		flex-direction: row;
+		border-radius: 15px 15px 0 0;
+		padding: 10px;
+		border-top: 1px solid #7a7a7a;
+		border-right: 1px solid #7a7a7a;
+		border-left: 1px solid #7a7a7a;
+	}
+	.card-row{
+		background: white;
+		display: flex;
+		flex-direction: row;
+		padding: 10px;
+		border-right: 1px solid #7a7a7a;
+		border-left: 1px solid #7a7a7a;
+	}
+	.card-bottom{
+		background-color: #2e6294;
+		display: flex;
+		flex-direction: row;
+		padding: 10px;
+		border-right: 1px solid #7a7a7a;
+		border-left: 1px solid #7a7a7a;
+		border-radius: 0 0 15px 15px;
+		border-bottom: 1px solid #7a7a7a;
+	}
+	.ele{
+		flex-grow: 1;
+		width: 100%;
+	}
 }
