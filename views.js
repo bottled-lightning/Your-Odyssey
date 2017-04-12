@@ -46,6 +46,31 @@ var flightSearchView = Backbone.View.extend({
 	}
 });
 
+function callback(response_data){
+	console.log(response_data);
+};
+
+// This is code that makes the actual AJAX request
+function makeRequest(response_data, OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE){
+	$.ajax({
+		url: 'http://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/US/USD/en-US/'+
+		OUTBOUND_LOCATION + '/' + INBOUND_LOCATION + '/' + OUTBOUND_DATE + '/' + INBOUND_DATE + 
+		'?apiKey=' + 're686126617468938158317525284308',
+		type: 'GET',
+        crossDomain: true,
+       	dataType:'jsonp',
+		/*success: function(data){
+			console.log(data),
+			response_data = data;
+		},
+		*/
+		jsonpCallback: 'callback',
+		error: function(XMLHttpRequest, textStatus, errorThrown){
+			alert("Error using travel API. textStatus: " + textStatus + " Error: " + errorThrown);
+		}
+	});
+};
+
 // The javascript code for Flight-Selector.hmtl and everything it displays
 var flightSelectorView = Backbone.View.extend({
 	initialize: function(){
@@ -87,7 +112,32 @@ var flightSelectorView = Backbone.View.extend({
 			$('#children').text(descriptor.children);
 			$('#program').text(descriptor.program);
 		}
+
+		// Request is made
+		var flights;
+		//response_data, OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE
+		makeRequest(flights, descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0]);
+
+		// This should be the code where we iteratively create
+		// flight cards using the JSON stored as "flights"
+		for (i = 0; i < flights["Quotes"].length; i++) { 
+   			$('.flight-bin').append(flightCardTemplate(
+				{
+					departingLoc: descriptor.from,
+					arrivalLoc: descriptor.to,
+					departingTime: flights["Quotes"][i].QuoteDateTime,
+					returnTime: 'need to add',
+					// NOTE: WE NEED TO THEN TRANSLATE A CARRIER ID -> CARRIER NAME
+					airline: flights["Quotes"][i].CarrierIds,
+					cost: flights["Quotes"][i].MinPrice,
+					adults: descriptor.adults,
+					children: descriptor.children
+				}
+			));
+		}	
+
 		// Append a bunch of dummy data that is exactly the same
+		/*	
 		$('.flight-bin').append(flightCardTemplate(
 			{
 				departingLoc: 'foo',
@@ -100,30 +150,8 @@ var flightSelectorView = Backbone.View.extend({
 				children: '0'
 			}
 		));
-		$('.flight-bin').append(flightCardTemplate(
-			{
-				departingLoc: 'foo',
-				arrivalLoc: 'bar',
-				departingTime: '3/30/2017 3:40pm',
-				returnTime: '3/30/2017 6:00pm',
-				airline: 'Walking',
-				cost: '$0',
-				adults: '1',
-				children: '0'
-			}
-		));
-		$('.flight-bin').append(flightCardTemplate(
-			{
-				departingLoc: 'foo',
-				arrivalLoc: 'bar',
-				departingTime: '3/30/2017 3:40pm',
-				returnTime: '3/30/2017 6:00pm',
-				airline: 'Walking',
-				cost: '$0',
-				adults: '1',
-				children: '0'
-			}
-		));
+		*/
+
 		// fin
 	}
 });
