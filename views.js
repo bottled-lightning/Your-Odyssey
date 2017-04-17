@@ -60,7 +60,7 @@ var flightSearchView = Backbone.View.extend({
 });
 
 // This is code that makes the actual AJAX request
-function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE){
+function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE, FlightRequest){
 	var data = {};
 	$.ajax({	
 		//PLEASE DO NOT PUSH API KEYS
@@ -72,13 +72,13 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 			var trips = data["trips"];
 			//console.log(trips);
 			for (i = 0; i < trips["tripOption"].length; i++) {
-				var airlineStr = "";
+				var airlineStr = OUTBOUND_LOCATION + " ";
 				trips["tripOption"][i]["slice"]["0"]["segment"].forEach(function(e){
-						airlineStr += e["leg"]["0"].destination + "\n";
+						airlineStr += e["leg"]["0"].destination + " ";
 				});
 				var timeStr = "";
 				trips["tripOption"][i]["slice"]["0"]["segment"].forEach(function(e){
-						timeStr += e["leg"]["0"].departureTime + "\n";
+						timeStr += e["leg"]["0"].departureTime + " ";
 				});
    			$('.flight-bin').append(flightCardTemplate(
 				{
@@ -149,7 +149,31 @@ var flightSelectorView = Backbone.View.extend({
 		//response_data, OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE
 		// console.log(descriptor.departing.split('T')[0]);
 		// console.log(descriptor.returning.split('T')[0]);
-		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0]);
+		console.log(descriptor.from);
+		console.log(descriptor.to);
+		console.log(descriptor.departing.split('T')[0]);
+		var FlightRequest = 
+		{
+		  "request": {
+			"slice": [
+			  {
+				"origin": descriptor.from,
+				"destination": descriptor.to,
+				"date": descriptor.departing.split('T')[0]
+			  }
+			],
+			"passengers": {
+			  "adultCount": 1,
+			  "infantInLapCount": 0,
+			  "infantInSeatCount": 0,
+			  "childCount": 0,
+			  "seniorCount": 0
+			},
+			"solutions": 20,
+			"refundable": false
+		  }
+		}
+		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest);
 		// This should be the code where we iteratively create
 		// flight cards using the JSON stored as "flights"
 		
@@ -174,24 +198,4 @@ var flightSelectorView = Backbone.View.extend({
 	}
 });
 
-var FlightRequest = 
-{
-  "request": {
-    "slice": [
-      {
-        "origin": "LAX",
-        "destination": "JFK",
-        "date": "2017-04-17"
-      }
-    ],
-    "passengers": {
-      "adultCount": 1,
-      "infantInLapCount": 0,
-      "infantInSeatCount": 0,
-      "childCount": 0,
-      "seniorCount": 0
-    },
-    "solutions": 20,
-    "refundable": false
-  }
-}
+
