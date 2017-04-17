@@ -28,21 +28,21 @@ var flightSearchView = Backbone.View.extend({
 		// When we click the find flight button save our parameters to sessionstorage so we can echo them on the next page
 		$('#search').click(function(){
 			if ($('#from').dropdown('get value') < $('#to').dropdown('get value')){
-				window.alert("You cannot DEPART after your RETURN date.\nPlease select a valid pair of dates");
+				window.alert("You cannot DEPART after your RETURN date.\nPlease select a valid pair of dates.");
 			}
 			else if($('#from').dropdown('get value') == $('#to').dropdown('get value')){
-				window.alert("You have selected the same outbound and inbound airports.\nPlease select a valid pair of airports");
+				window.alert("You have selected the same outbound and inbound airports.\nPlease select a valid pair of airports.");
 			}
 			// Not sure how either of these two cases will happen... but just in case I guess
 			else if($('#adults').dropdown('get value') < 0){
-				window.alert("You have selected an invalid value for number of adults.\nPlease try selecting the number of adult passengers again");
+				window.alert("You have selected an invalid value for number of adults.\nPlease try selecting the number of adult passengers again.");
 			}
 			else if($('#children').dropdown('get value') < 0){
-				window.alert("You have selected an invalid value for number of children.\nPlease try selecting the number of children passengers again");
+				window.alert("You have selected an invalid value for number of children.\nPlease try selecting the number of children passengers again.");
 			}
 			else if (!window.sessionStorage){
 				// Something broke. This shouldn't happen
-				window.alert("Things went very wrong. Very, very wrong.");
+				window.alert("Session storage is missing.\nPlease try again.");
 			}else{
 				descriptor={}
 				descriptor.from=$('#from').dropdown('get value');
@@ -130,7 +130,7 @@ var flightSelectorView = Backbone.View.extend({
 		}
 		// check if we have meaningful results from session storage
 		if(descriptor==null){
-			window.alert("Things went very wrong. Very, very wrong.");
+			window.alert("The search parameters were not properly passed on.\nPlease try searching again.");
 		}
 		else{
 			// unpack the parameters for the search and echo them
