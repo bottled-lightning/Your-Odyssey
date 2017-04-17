@@ -27,7 +27,7 @@ var flightSearchView = Backbone.View.extend({
 		});
 		// When we click the find flight button save our parameters to sessionstorage so we can echo them on the next page
 		$('#search').click(function(){
-			if ($('#from').dropdown('get value') < $('#to').dropdown('get value')){
+			if ($('#from').dropdown('get value') > $('#to').dropdown('get value')){
 				window.alert("You cannot DEPART after your RETURN date.\nPlease select a valid pair of dates.");
 			}
 			else if($('#from').dropdown('get value') == $('#to').dropdown('get value')){
