@@ -27,7 +27,7 @@ var flightSearchView = Backbone.View.extend({
 		});
 		// When we click the find flight button save our parameters to sessionstorage so we can echo them on the next page
 		$('#search').click(function(){
-			if ($('#from').dropdown('get value') > $('#to').dropdown('get value')){
+			if ($('#from').dropdown('get value') < $('#to').dropdown('get value')){
 				window.alert("You cannot DEPART after your RETURN date.\nPlease select a valid pair of dates");
 			}
 			else if($('#from').dropdown('get value') == $('#to').dropdown('get value')){
@@ -58,12 +58,6 @@ var flightSearchView = Backbone.View.extend({
 		});
 	}
 });
-
-function fback(response_data){
- 	//console.log("helo");
- 	console.log(response_data);
- 	flights = response_data;
-};
 
 // This is code that makes the actual AJAX request
 function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE){
@@ -105,38 +99,8 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 		error: function(data) {
 			console.log(data);
 		}
-		
 	});
-	/*.done(function(data){
-		console.log("??");
-		for (i = 0; i < data["Quotes"].length; i++) { 
-   			$('.flight-bin').append(flightCardTemplate(
-				{
-					departingLoc: OUTBOUND_LOCATION,
-					arrivalLoc: INBOUND_LOCATION,
-					departingTime: data["Quotes"][i].QuoteDateTime,
-					returnTime: 'need to add',
-					// NOTE: WE NEED TO THEN TRANSLATE A CARRIER ID -> CARRIER NAME
-					airline: data["Quotes"][i].CarrierIds,
-					cost: data["Quotes"][i].MinPrice,
-					adults: '1',
-					children: '1'
-				}
-			));
-		}	
-	});*/
 };
-
- function localJsonpCallback(json) {
-        if (!json.Error) {
-            $('#resultForm').submit();
-        }
-        else {
-            $('#loading').hide();
-            $('#userForm').show();
-            alert(json.Message);
-        }
-    }
 
 // The javascript code for Flight-Selector.hmtl and everything it displays
 var flightSelectorView = Backbone.View.extend({
@@ -217,7 +181,7 @@ var FlightRequest =
       {
         "origin": "LAX",
         "destination": "JFK",
-        "date": "2017-04-15"
+        "date": "2017-04-17"
       }
     ],
     "passengers": {
