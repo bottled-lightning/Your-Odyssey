@@ -56,8 +56,8 @@ function fback(response_data){
 function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE){
 	var data = {};
 	$.ajax({	
-		//url: 'http://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/US/USD/en-US/'+ OUTBOUND_LOCATION + '/' + INBOUND_LOCATION + '/' + OUTBOUND_DATE + '/' + INBOUND_DATE + '?apiKey=' + 're686126617468938158317525284308',
-		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyDk1wWH9nVv_QzJJmc-aHr7eaUpslumw1U',
+		//PLEASE DO NOT PUSH API KEYS
+		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=KEY',
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(FlightRequest),
