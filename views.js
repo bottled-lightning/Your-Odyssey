@@ -27,7 +27,20 @@ var flightSearchView = Backbone.View.extend({
 		});
 		// When we click the find flight button save our parameters to sessionstorage so we can echo them on the next page
 		$('#search').click(function(){
-			if (!window.sessionStorage){
+			if ($('#from').dropdown('get value') > $('#to').dropdown('get value')){
+				window.alert("You cannot DEPART after your RETURN date.\nPlease select a valid pair of dates");
+			}
+			else if($('#from').dropdown('get value') == $('#to').dropdown('get value')){
+				window.alert("You have selected the same outbound and inbound airports.\nPlease select a valid pair of airports");
+			}
+			// Not sure how either of these two cases will happen... but just in case I guess
+			else if($('#adults').dropdown('get value') < 0){
+				window.alert("You have selected an invalid value for number of adults.\nPlease try selecting the number of adult passengers again");
+			}
+			else if($('#children').dropdown('get value') < 0){
+				window.alert("You have selected an invalid value for number of children.\nPlease try selecting the number of children passengers again");
+			}
+			else if (!window.sessionStorage){
 				// Something broke. This shouldn't happen
 				window.alert("Things went very wrong. Very, very wrong.");
 			}else{
@@ -47,7 +60,7 @@ var flightSearchView = Backbone.View.extend({
 });
 
 function fback(response_data){
- 	console.log("helo");
+ 	//console.log("helo");
  	console.log(response_data);
  	flights = response_data;
 };
@@ -57,13 +70,13 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 	var data = {};
 	$.ajax({	
 		//PLEASE DO NOT PUSH API KEYS
-		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=KEY',
+		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyDk1wWH9nVv_QzJJmc-aHr7eaUpslumw1U',
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(FlightRequest),
 		success: function(data){
 			var trips = data["trips"];
-			console.log(trips);
+			//console.log(trips);
 			for (i = 0; i < trips["tripOption"].length; i++) {
 				var airlineStr = "";
 				trips["tripOption"][i]["slice"]["0"]["segment"].forEach(function(e){
