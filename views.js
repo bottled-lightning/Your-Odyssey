@@ -123,6 +123,34 @@ var flightSelectorView = Backbone.View.extend({
 	        .not($(this))
 	        .removeClass('active');
 		});
+        $('#airline').click(function(){
+            $('.flight-bin').empty();
+            tmp.sort(airlineSort);
+            for ( i = 0; i < tmp.length; i++ ){
+                $('.flight-bin').append(tmp[i]);
+            }
+        });
+        $('#arrival').click(function(){
+            $('.flight-bin').empty();
+            tmp.sort(arrivalSort);
+            for ( i = 0; i < tmp.length; i++ ){
+                $('.flight-bin').append(tmp[i]);
+            }
+        });
+        $('#departure').click(function(){
+            $('.flight-bin').empty();
+            tmp.sort(departureSort);
+            for ( i = 0; i < tmp.length; i++ ){
+                $('.flight-bin').append(tmp[i]);
+            }
+        });
+        $('#cost').click(function(){
+            $('.flight-bin').empty();
+            tmp.sort(costSort);
+            for ( i = 0; i < tmp.length; i++ ){
+                $('.flight-bin').append(tmp[i]);
+            }
+        });
 		var descriptor=null; //the parameters passed to the page if any
 		// check if sessionstorage exists
 		if (window.sessionStorage){
@@ -179,8 +207,45 @@ var flightSelectorView = Backbone.View.extend({
 		
 
 		// Append a bunch of dummy data that is exactly the same
-		/*	
-		$('.flight-bin').append(flightCardTemplate(
+
+        var tmp = [];
+        tmp.push(flightCardTemplate(
+			{
+				departingLoc: 'ABL-Ambler Airport',
+				arrivalLoc: 'ADK-Adak Airport',
+				departingTime: '3/30/2017 3:40pm',
+				returnTime: '3/30/2017 6:10pm',
+				airline: 'Zalking',
+				cost: '$100',
+				adults: '1',
+				children: '0'
+			}
+		));
+        tmp.push(flightCardTemplate(
+			{
+				departingLoc: 'foo',
+				arrivalLoc: 'bar',
+				departingTime: '3/30/2017 3:40pm',
+				returnTime: '3/30/2017 6:00pm',
+				airline: 'Walking',
+				cost: '$1000',
+				adults: '1',
+				children: '0'
+			}
+		));
+                tmp.push(flightCardTemplate(
+			{
+				departingLoc: 'foo',
+				arrivalLoc: 'bar',
+				departingTime: '3/30/2017 3:40pm',
+				returnTime: '3/30/2017 6:00pm',
+				airline: 'Walking',
+				cost: '$10',
+				adults: '1',
+				children: '0'
+			}
+		));
+                tmp.push(flightCardTemplate(
 			{
 				departingLoc: 'foo',
 				arrivalLoc: 'bar',
@@ -192,10 +257,49 @@ var flightSelectorView = Backbone.View.extend({
 				children: '0'
 			}
 		));
-		*/
+                tmp.push(flightCardTemplate(
+			{
+				departingLoc: 'foo',
+				arrivalLoc: 'bar',
+				departingTime: '3/30/2017 3:40pm',
+				returnTime: '3/30/2017 6:00pm',
+				airline: 'Walking',
+				cost: '$9999',
+				adults: '1',
+				children: '0'
+			}
+		));
+
+		for ( i = 0; i < tmp.length; i++ ){
+            $('.flight-bin').append(tmp[i]);
+        }
 
 		// fin
 	}
 });
 
-
+// Sort functions
+function airlineSort(a,b){
+    if ( a.airline < b.airline )
+        return -1;
+    else
+        return 1;
+}
+function arrivalSort(a,b){
+    if ( a.returnTime < b.returnTime )
+        return -1;
+    else
+        return 1;
+}
+function departureSort(a,b){
+    if ( a.departingTime < b.departingTime )
+        return -1;
+    else
+        return 1;
+}
+function costSort(a,b){
+    if ( a.cost < b.cost )
+        return -1;
+    else
+        return 1;
+}
