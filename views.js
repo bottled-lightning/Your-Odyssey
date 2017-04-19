@@ -27,10 +27,18 @@ var flightSearchView = Backbone.View.extend({
 		});
 		// When we click the find flight button save our parameters to sessionstorage so we can echo them on the next page
 		$('#search').click(function(){
+			// NOTE: very strange bug?
+			// certain combinations of airports seems to make the date error message go off
+			// example:
+			// ADK -> ABL
+			// Adults: 1
+			// Children: 0
+			// Departing: April 22, 2017
+			// Returning: April 23, 2017
 			if ($('#from').dropdown('get value') > $('#to').dropdown('get value')){
 				window.alert("You cannot DEPART after your RETURN date.\nPlease select a valid pair of dates.");
 			}
-			else if($('#from').dropdown('get value') == $('#to').dropdown('get value')){
+			else if($('#departing').dropdown('get value') == $('#returning').dropdown('get value')){
 				window.alert("You have selected the same outbound and inbound airports.\nPlease select a valid pair of airports.");
 			}
 			// Not sure how either of these two cases will happen... but just in case I guess
