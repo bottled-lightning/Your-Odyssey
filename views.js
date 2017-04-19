@@ -203,10 +203,10 @@ var flightSelectorView = Backbone.View.extend({
 			  }
 			],
 			"passengers": {
-			  "adultCount": 1,
+			  "adultCount": descriptor.adults,
 			  "infantInLapCount": 0,
 			  "infantInSeatCount": 0,
-			  "childCount": 0,
+			  "childCount": descriptor.children,
 			  "seniorCount": 0
 			},
 			"solutions": 20,
