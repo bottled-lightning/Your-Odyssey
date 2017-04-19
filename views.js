@@ -73,7 +73,7 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 	var data = {};
 	$.ajax({	
 		//PLEASE DO NOT PUSH API KEYS
-		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyDk1wWH9nVv_QzJJmc-aHr7eaUpslumw1U',
+		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=',
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(FlightRequest),
