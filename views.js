@@ -60,7 +60,7 @@ var flightSearchView = Backbone.View.extend({
 });
 
 // This is code that makes the actual AJAX request
-function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE, FlightRequest){
+function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE, FlightRequest, flightCards){
 	var data = {};
 	$.ajax({	
 		//PLEASE DO NOT PUSH API KEYS
@@ -80,7 +80,7 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 				trips["tripOption"][i]["slice"]["0"]["segment"].forEach(function(e){
 						timeStr += e["leg"]["0"].departureTime + " ";
 				});
-   			$('.flight-bin').append(flightCardTemplate(
+   			flightCards.push(
 				{
 					departingLoc: OUTBOUND_LOCATION,
 					arrivalLoc: INBOUND_LOCATION,
@@ -92,7 +92,10 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 					adults: '1',
 					children: '1'
 				}
-			));
+			);
+            for ( i = 0; i < flightCards.length; i++ ){
+                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
+            }
 		}
 			
 		},
@@ -125,30 +128,30 @@ var flightSelectorView = Backbone.View.extend({
 		});
         $('#airline').click(function(){
             $('.flight-bin').empty();
-            tmp.sort(airlineSort);
-            for ( i = 0; i < tmp.length; i++ ){
-                $('.flight-bin').append(tmp[i]);
+            flightCards.sort(airlineSort);
+            for ( i = 0; i < flightCards.length; i++ ){
+                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
             }
         });
         $('#arrival').click(function(){
             $('.flight-bin').empty();
-            tmp.sort(arrivalSort);
-            for ( i = 0; i < tmp.length; i++ ){
-                $('.flight-bin').append(tmp[i]);
+            flightCards.sort(departureSort);
+            for ( i = 0; i < flightCards.length; i++ ){
+                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
             }
         });
         $('#departure').click(function(){
             $('.flight-bin').empty();
-            tmp.sort(departureSort);
-            for ( i = 0; i < tmp.length; i++ ){
-                $('.flight-bin').append(tmp[i]);
+            flightCards.sort(arrivalSort);
+            for ( i = 0; i < flightCards.length; i++ ){
+                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
             }
         });
         $('#cost').click(function(){
             $('.flight-bin').empty();
-            tmp.sort(costSort);
-            for ( i = 0; i < tmp.length; i++ ){
-                $('.flight-bin').append(tmp[i]);
+            flightCards.sort(costSort);
+            for ( i = 0; i < flightCards.length; i++ ){
+                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
             }
         });
 		var descriptor=null; //the parameters passed to the page if any
@@ -201,15 +204,13 @@ var flightSelectorView = Backbone.View.extend({
 			"refundable": false
 		  }
 		}
-		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest);
+        var flightCards = [];
+		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest, flightCards);
 		// This should be the code where we iteratively create
 		// flight cards using the JSON stored as "flights"
-		
 
-		// Append a bunch of dummy data that is exactly the same
-
-        var tmp = [];
-        tmp.push(flightCardTemplate(
+        // Dummy
+        /*flightCards.push(
 			{
 				departingLoc: 'ABL-Ambler Airport',
 				arrivalLoc: 'ADK-Adak Airport',
@@ -220,86 +221,38 @@ var flightSelectorView = Backbone.View.extend({
 				adults: '1',
 				children: '0'
 			}
-		));
-        tmp.push(flightCardTemplate(
-			{
-				departingLoc: 'foo',
-				arrivalLoc: 'bar',
-				departingTime: '3/30/2017 3:40pm',
-				returnTime: '3/30/2017 6:00pm',
-				airline: 'Walking',
-				cost: '$1000',
-				adults: '1',
-				children: '0'
-			}
-		));
-                tmp.push(flightCardTemplate(
-			{
-				departingLoc: 'foo',
-				arrivalLoc: 'bar',
-				departingTime: '3/30/2017 3:40pm',
-				returnTime: '3/30/2017 6:00pm',
-				airline: 'Walking',
-				cost: '$10',
-				adults: '1',
-				children: '0'
-			}
-		));
-                tmp.push(flightCardTemplate(
-			{
-				departingLoc: 'foo',
-				arrivalLoc: 'bar',
-				departingTime: '3/30/2017 3:40pm',
-				returnTime: '3/30/2017 6:00pm',
-				airline: 'Walking',
-				cost: '$0',
-				adults: '1',
-				children: '0'
-			}
-		));
-                tmp.push(flightCardTemplate(
-			{
-				departingLoc: 'foo',
-				arrivalLoc: 'bar',
-				departingTime: '3/30/2017 3:40pm',
-				returnTime: '3/30/2017 6:00pm',
-				airline: 'Walking',
-				cost: '$9999',
-				adults: '1',
-				children: '0'
-			}
-		));
+		);*/
 
-		for ( i = 0; i < tmp.length; i++ ){
-            $('.flight-bin').append(tmp[i]);
-        }
-
-		// fin
+        //fin
 	}
 });
 
-// Sort functions
+// Sort function
 function airlineSort(a,b){
     if ( a.airline < b.airline )
         return -1;
-    else
+    if ( a.airline > b.airline )
         return 1;
-}
-function arrivalSort(a,b){
-    if ( a.returnTime < b.returnTime )
-        return -1;
-    else
-        return 1;
+    return 0;
 }
 function departureSort(a,b){
     if ( a.departingTime < b.departingTime )
         return -1;
-    else
+    if ( a.departingTime > b.departingTime )
         return 1;
+    return 0;
+}
+function arrivalSort(a,b){
+    if ( a.returnTime < b.returnTime )
+        return -1;
+    if ( a.returnTime > b.returnTime )
+        return 1;
+    return 0;
 }
 function costSort(a,b){
     if ( a.cost < b.cost )
         return -1;
-    else
+    if ( a.cost > b.cost )
         return 1;
+    return 0;
 }
