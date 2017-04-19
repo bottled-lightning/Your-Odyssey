@@ -2,6 +2,7 @@
 // This will eventually be broken up, but there isn't a pressing need to yet
 
 airplaneSource="airportlist.json"; //the file that we will use as a source for airport data
+var flightCards = []; // Information for flights
 
 // The javascript code responsible for index.html and everything it displays
 var flightSearchView = Backbone.View.extend({
@@ -60,7 +61,7 @@ var flightSearchView = Backbone.View.extend({
 });
 
 // This is code that makes the actual AJAX request
-function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE, FlightRequest, flightCards){
+function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE, FlightRequest){
 	var data = {};
 	$.ajax({	
 		//PLEASE DO NOT PUSH API KEYS
@@ -204,8 +205,7 @@ var flightSelectorView = Backbone.View.extend({
 			"refundable": false
 		  }
 		}
-        var flightCards = [];
-		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest, flightCards);
+		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest);
 		// This should be the code where we iteratively create
 		// flight cards using the JSON stored as "flights"
 
@@ -227,7 +227,7 @@ var flightSelectorView = Backbone.View.extend({
 	}
 });
 
-// Sort function
+// Sort functions
 function airlineSort(a,b){
     if ( a.airline < b.airline )
         return -1;
@@ -236,16 +236,16 @@ function airlineSort(a,b){
     return 0;
 }
 function departureSort(a,b){
-    if ( a.departingTime < b.departingTime )
+    if ( a.returnTime < b.returnTime )
         return -1;
-    if ( a.departingTime > b.departingTime )
+    if ( a.returnTime > b.returnTime )
         return 1;
     return 0;
 }
 function arrivalSort(a,b){
-    if ( a.returnTime < b.returnTime )
+    if ( a.departingTime < b.departingTime )
         return -1;
-    if ( a.returnTime > b.returnTime )
+    if ( a.departingTime > b.departingTime )
         return 1;
     return 0;
 }
