@@ -36,12 +36,15 @@ var flightSearchView = Backbone.View.extend({
 			// Children: 0
 			// Departing: April 22, 2017
 			// Returning: April 23, 2017
-			if ($('#from').dropdown('get value') > $('#to').dropdown('get value')){
+			if ($('#departing').dropdown('get value') > $('#returning').dropdown('get value')){
+                console.log('dates error'),
+                console.log('depart is: '),
+                console.log($('#from').dropdown('get value')),
 				window.alert("You cannot DEPART after your RETURN date.\nPlease select a valid pair of dates.");
 			}
-			else if($('#departing').dropdown('get value') == $('#returning').dropdown('get value')){
-				window.alert("You have selected the same outbound and inbound airports.\nPlease select a valid pair of airports.");
-			}
+			//else if($('#from').dropdown('get value') == $('#to').dropdown('get value')){
+			//	window.alert("You have selected the same outbound and inbound airports.\nPlease select a valid pair of airports.");
+			//}
 			// Not sure how either of these two cases will happen... but just in case I guess
 			else if($('#adults').dropdown('get value') < 0){
 				window.alert("You have selected an invalid value for number of adults.\nPlease try selecting the number of adult passengers again.");
@@ -213,6 +216,8 @@ var flightSelectorView = Backbone.View.extend({
 			"refundable": false
 		  }
 		}
+        console.log(descriptor.adults),
+        console.log(descriptor.children),
 		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest);
 		// This should be the code where we iteratively create
 		// flight cards using the JSON stored as "flights"
