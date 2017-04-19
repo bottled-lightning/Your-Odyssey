@@ -33,13 +33,36 @@
 <!-- Local code -->
 <script src="templates.js"></script>
 <script src="views.js"></script>
-
+<script src="mobileView.js"></script>
+<script src="mobileTemplate.js"></script>
+    
 <!-- This is the script that actually creates the page -->
 <!-- They will be created as empty divs within the body tags -->
 <script type="text/javascript">
-	$(document).ready( function(){
+	
+    /*$(document).ready( function(){
 		var flightSearch = new flightSearchView({el: $(".flightSearch")});
+	});*/
+    
+    $(document).ready( function(){
+        
+        if($(window).width() < 800) {
+            var flightSearch = new mobileFlightSearchView({el: $(".flightSearch")});
+        }     
+        else{
+            var flightSearch = new flightSearchView({el: $(".flightSearch")});
+        }
 	});
+    $(window).on('resize orientationChange', function(event) {
+        var width = $(window).width();
+        if( width < 800) {
+            flightsearch = mobileFlightSearchView({el: $(".flightSearch")});
+        }
+        else{
+            flightSearch = flightSearchView({el: $(".flightSearch")});
+        }
+        
+    });
 </script>
 </head>
 <body>

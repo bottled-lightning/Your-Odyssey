@@ -174,18 +174,18 @@ var flightSelectorTemplate=_.template(`
 				<div class="filter-bar">
 					<div class="ui text menu dense">
 						<div class="header item">Sort By</div>
-						<a class="active item">
-							Airline
-						</a>
-						<a class="item">
-							Arrival Time
-						</a>
-						<a class="item">
-							Departure Time
-						</a>
-						<a class="item">
-							Cost
-						</a>
+				        <button class="trans" id='airline'>
+                            Airline
+                        </button>
+                        <button class="trans" id='arrival'>
+                            Arrival time
+                        </button>
+                        <button class="trans" id='departure'>
+                            Departure time
+                        </button>
+                        <button class="trans" id='cost'>
+                            Cost
+                        </button>
 					</div>
 				</div>
 				<div class="flight-bin">

@@ -2,6 +2,7 @@
 // This will eventually be broken up, but there isn't a pressing need to yet
 
 airplaneSource="airportlist.json"; //the file that we will use as a source for airport data
+var flightCards = []; // Information for flights
 
 // The javascript code responsible for index.html and everything it displays
 var flightSearchView = Backbone.View.extend({
@@ -88,7 +89,7 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 				trips["tripOption"][i]["slice"]["0"]["segment"].forEach(function(e){
 						timeStr += e["leg"]["0"].departureTime + " ";
 				});
-   			$('.flight-bin').append(flightCardTemplate(
+   			flightCards.push(
 				{
 					departingLoc: OUTBOUND_LOCATION,
 					arrivalLoc: INBOUND_LOCATION,
@@ -100,7 +101,10 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 					adults: '1',
 					children: '1'
 				}
-			));
+			);
+            for ( i = 0; i < flightCards.length; i++ ){
+                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
+            }
 		}
 			
 		},
@@ -131,6 +135,34 @@ var flightSelectorView = Backbone.View.extend({
 	        .not($(this))
 	        .removeClass('active');
 		});
+        $('#airline').click(function(){
+            $('.flight-bin').empty();
+            flightCards.sort(airlineSort);
+            for ( i = 0; i < flightCards.length; i++ ){
+                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
+            }
+        });
+        $('#arrival').click(function(){
+            $('.flight-bin').empty();
+            flightCards.sort(departureSort);
+            for ( i = 0; i < flightCards.length; i++ ){
+                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
+            }
+        });
+        $('#departure').click(function(){
+            $('.flight-bin').empty();
+            flightCards.sort(arrivalSort);
+            for ( i = 0; i < flightCards.length; i++ ){
+                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
+            }
+        });
+        $('#cost').click(function(){
+            $('.flight-bin').empty();
+            flightCards.sort(costSort);
+            for ( i = 0; i < flightCards.length; i++ ){
+                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
+            }
+        });
 		var descriptor=null; //the parameters passed to the page if any
 		// check if sessionstorage exists
 		if (window.sessionStorage){
@@ -184,26 +216,51 @@ var flightSelectorView = Backbone.View.extend({
 		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest);
 		// This should be the code where we iteratively create
 		// flight cards using the JSON stored as "flights"
-		
 
-		// Append a bunch of dummy data that is exactly the same
-		/*	
-		$('.flight-bin').append(flightCardTemplate(
+        // Dummy
+        /*flightCards.push(
 			{
-				departingLoc: 'foo',
-				arrivalLoc: 'bar',
+				departingLoc: 'ABL-Ambler Airport',
+				arrivalLoc: 'ADK-Adak Airport',
 				departingTime: '3/30/2017 3:40pm',
-				returnTime: '3/30/2017 6:00pm',
-				airline: 'Walking',
-				cost: '$0',
+				returnTime: '3/30/2017 6:10pm',
+				airline: 'Zalking',
+				cost: '$100',
 				adults: '1',
 				children: '0'
 			}
-		));
-		*/
+		);*/
 
-		// fin
+        //fin
 	}
 });
 
-
+// Sort functions
+function airlineSort(a,b){
+    if ( a.airline < b.airline )
+        return -1;
+    if ( a.airline > b.airline )
+        return 1;
+    return 0;
+}
+function departureSort(a,b){
+    if ( a.returnTime < b.returnTime )
+        return -1;
+    if ( a.returnTime > b.returnTime )
+        return 1;
+    return 0;
+}
+function arrivalSort(a,b){
+    if ( a.departingTime < b.departingTime )
+        return -1;
+    if ( a.departingTime > b.departingTime )
+        return 1;
+    return 0;
+}
+function costSort(a,b){
+    if ( a.cost < b.cost )
+        return -1;
+    if ( a.cost > b.cost )
+        return 1;
+    return 0;
+}
