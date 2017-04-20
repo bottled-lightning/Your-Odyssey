@@ -4,11 +4,11 @@ airplaneSource="airportlist.json"; //the file that we will use as a source for a
 var flightSearchView = Backbone.View.extend({
 	initialize: function(){
         var view=this;
-        view.$el.append(flightSearchTemplate());
         view.render();
 	},
 	render: function(){
         var view=this;
+        view.$el.append(flightSearchTemplate());
 		// for each valid us airport in the json list of airports, add it to the dropdown
 		$.getJSON(airplaneSource, function(json) {
 		    _.each(json, function(airport){

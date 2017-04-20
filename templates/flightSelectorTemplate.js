@@ -65,24 +65,28 @@ var flightSelectorTemplate=_.template(`
                             Cost
                         </a>
                         <div class="header item">Filter By</div>
-                        <div class="ui selection dropdown">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">Departure Time</div>
-                            <div class="menu">
-                                <div class="item" id="noneT">Departure Time</div>
-                                <div class="item" id="morning">Morning (5:00a - 11:59a)</div>
-                                <div class="item" id="afternoon">Afternoon (12:00p - 5:59p)</div>
-                                <div class="item" id="evening">Evening (6:00p - 11:59p)</div>
-                            </div>
-                        </div>
-                        <div class="ui selection dropdown">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">Cost</div>
-                            <div class="menu">
-                                <div class="item" id="noneC">All costs</div>
-                                <div class="item" id="low">$0 - $500</div>
-                                <div class="item" id="med">$0 - $1000</div>
-                            </div>
+                        <div class="float-center">
+	                        <div class="ui simple dropdown">
+	                            <i class="dropdown icon"></i>
+	                            <div class="default text">Departure Time</div>
+	                            <div class="menu">
+	                                <div class="item" id="noneT">Departure Time</div>
+	                                <div class="item" id="morning">Morning (5:00a - 11:59a)</div>
+	                                <div class="item" id="afternoon">Afternoon (12:00p - 5:59p)</div>
+	                                <div class="item" id="evening">Evening (6:00p - 11:59p)</div>
+	                            </div>
+	                        </div>
+	                    </div>
+                        <div class="float-center">
+	                        <div class="ui simple dropdown">
+	                            <i class="dropdown icon"></i>
+	                            <div class="default text">Cost</div>
+	                            <div class="menu">
+	                                <div class="item" id="noneC">All costs</div>
+	                                <div class="item" id="low">$0 - $500</div>
+	                                <div class="item" id="med">$0 - $1000</div>
+	                            </div>
+	                        </div>
                         </div>
 					</div>
 				</div>
