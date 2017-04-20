@@ -1,6 +1,7 @@
 //serving as a semi-static config section
 airplaneSource="airportlist.json"; //the file that we will use as a source for airport data
 
+
 var flightSearchView = Backbone.View.extend({
 	initialize: function(){
         var view=this;
