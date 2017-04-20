@@ -204,7 +204,7 @@ var flightSelectorTemplate=_.template(`
                             <div class="default text">Cost</div>
                             <div class="menu">
                                 <div class="item" id="noneC">Cost</div>
-                                <div class="item" id="low">$100 - $500</div>
+                                <div class="item" id="low">$0 - $500</div>
                                 <div class="item" id="med">$500 - $1000</div>
                                 <div class="item" id="high">$1000+</div>
                             </div>

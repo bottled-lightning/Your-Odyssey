@@ -3,6 +3,10 @@
 
 airplaneSource="airportlist.json"; //the file that we will use as a source for airport data
 var flightCards = []; // Information for flights
+var tmpFlightCards = [];
+var sortFilter = [ 0, 0, 0, 0 ];
+var departureFilter = [ 0, 0, 0 ];
+var costFilter = [ 0, 0, 0 ];
 
 // The javascript code responsible for index.html and everything it displays
 var flightSearchView = Backbone.View.extend({
@@ -134,48 +138,118 @@ var flightSelectorView = Backbone.View.extend({
 	        .removeClass('active');
 		});
         $('#airline').click(function(){
-            $('.flight-bin').empty();
-            flightCards.sort(airlineSort);
-            for ( i = 0; i < flightCards.length; i++ ){
-                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
+            if ( sortFilter[0] != 1 ){
+                for ( i = 0; i < sortFilter.length; i++ )
+                    sortFilter[i] = 0;
+                sortFilter[0] = 1;
+                filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
             }
         });
         $('#arrival').click(function(){
-            $('.flight-bin').empty();
-            flightCards.sort(departureSort);
-            for ( i = 0; i < flightCards.length; i++ ){
-                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
+            if ( sortFilter[1] != 1 ){
+                for ( i = 0; i < sortFilter.length; i++ )
+                    sortFilter[i] = 0;
+                sortFilter[1] = 1;
+                filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
             }
         });
         $('#departure').click(function(){
-            $('.flight-bin').empty();
-            flightCards.sort(arrivalSort);
-            for ( i = 0; i < flightCards.length; i++ ){
-                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
+            if ( sortFilter[2] != 1 ){
+                for ( i = 0; i < sortFilter.length; i++ )
+                    sortFilter[i] = 0;
+                sortFilter[2] = 1;
+                filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
             }
         });
         $('#cost').click(function(){
-            $('.flight-bin').empty();
-            flightCards.sort(costSort);
-            for ( i = 0; i < flightCards.length; i++ ){
-                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
+            if ( sortFilter[3] != 1 ){
+                for ( i = 0; i < sortFilter.length; i++ )
+                    sortFilter[i] = 0;
+                sortFilter[3] = 1;
+                filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
             }
         });
         $('#noneT').click(function(){
+            for ( i = 0; i < departureFilter.length; i++ )
+                departureFilter[i] = 0;
+            filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
         });
         $('#morning').click(function(){
+            if ( departureFilter[0] != 1 ){
+                for ( i = 0; i < departureFilter.length; i++ )
+                    departureFilter[i] = 0;
+                departureFilter[0] = 1;
+                filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
+            }
         });
         $('#afternoon').click(function(){
+            if ( departureFilter[1] != 1 ){
+                for ( i = 0; i < departureFilter.length; i++ )
+                    departureFilter[i] = 0;
+                departureFilter[1] = 1;
+                filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
+            }
         });
         $('#evening').click(function(){
+            if ( departureFilter[2] != 1 ){
+                for ( i = 0; i < departureFilter.length; i++ )
+                    departureFilter[i] = 0;
+                departureFilter[2] = 1;
+                filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
+            }
         });
         $('#noneC').click(function(){
+            for ( i = 0; i < costFilter.length; i++ )
+                costFilter[i] = 0;
+            filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
         });
         $('#low').click(function(){
+            if ( costFilter[0] != 1 ){
+                for ( i = 0; i < costFilter.length; i++ )
+                    costFilter[i] = 0;
+                costFilter[0] = 1;
+                filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
+            }
         });
         $('#med').click(function(){
+            if ( costFilter[1] != 1 ){
+                for ( i = 0; i < costFilter.length; i++ )
+                    costFilter[i] = 0;
+                costFilter[1] = 1;
+                filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
+            }
         });
         $('#high').click(function(){
+            if ( costFilter[2] != 1 ){
+                for ( i = 0; i < costFilter.length; i++ )
+                    costFilter[i] = 0;
+                costFilter[2] = 1;
+                filter();
+                for ( i = 0; i < flightCards.length; i++ )
+                    $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
+            }
         });
 		var descriptor=null; //the parameters passed to the page if any
 		// check if sessionstorage exists
@@ -232,7 +306,7 @@ var flightSelectorView = Backbone.View.extend({
 		// flight cards using the JSON stored as "flights"
 
         // Dummy
-        /*flightCards.push(
+        flightCards.push(
 			{
 				departingLoc: 'John F Kennedy International Airport',
 				arrivalLoc: 'Los Angeles International Airport',
@@ -240,12 +314,53 @@ var flightSelectorView = Backbone.View.extend({
 				returnTime: '3/23/2017 6:10pm',
 				airline: 'Zalking',
 				cost: '$100',
+                points: "Chase Sapphire Preferred",
 				adults: '1',
 				children: '0'
 			}
 		);
-        $('.flight-bin').append(flightCardTemplate( flightCards[0] ));*/
-
+        flightCards.push(
+			{
+				departingLoc: 'John F Kennedy International Airport',
+				arrivalLoc: 'Los Angeles International Airport',
+				departingTime: '3/22/2017 3:40pm',
+				returnTime: '3/23/2017 6:10pm',
+				airline: 'Zalking',
+				cost: '$50',
+                points: "Chase Sapphire Preferred",
+				adults: '1',
+				children: '0'
+			}
+		);
+        flightCards.push(
+			{
+				departingLoc: 'John F Kennedy International Airport',
+				arrivalLoc: 'Los Angeles International Airport',
+				departingTime: '3/22/2017 3:40pm',
+				returnTime: '3/23/2017 6:10pm',
+				airline: 'Zalking',
+				cost: '$10',
+                points: "Chase Sapphire Preferred",
+				adults: '1',
+				children: '0'
+			}
+		);
+        flightCards.push(
+			{
+				departingLoc: 'John F Kennedy International Airport',
+				arrivalLoc: 'Los Angeles International Airport',
+				departingTime: '3/22/2017 3:40pm',
+				returnTime: '3/23/2017 6:10pm',
+				airline: 'Zalking',
+				cost: '$999',
+                points: "Chase Sapphire Preferred",
+				adults: '1',
+				children: '0'
+			}
+		);
+        tmpFlightCards = flightCards.slice(0);
+        for ( i = 0; i < flightCards.length; i++ )
+            $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
         //fin
 	}
 });
@@ -287,4 +402,60 @@ function costSort(a,b){
     if ( a.cost > b.cost )
         return 1;
     return 0;
+}
+// Filter Functions
+function filter(){
+    $('.flight-bin').empty();
+    tmpFlightCards = flightCards.slice(0);
+    var sortI = 0;
+    var departI = 0;
+    var costI = 0;
+    for ( i = 0; i < 4; i++ )
+        if ( sortFilter[i] == 1 )
+            sortI = i+1;
+    for ( i = 0; i < 3; i++ ){
+        if ( departureFilter[i] == 1 )
+            departI = i+1;
+        if ( costFilter[i] == 1 )
+            costI = i+1;
+    }
+    sortFilterHelper( sortI );
+    departFilterHelper( departI );
+    costFilterHelper( costI );
+}
+function sortFilterHelper( x ){
+    if ( x != 0 ){
+        if ( x == 1 )
+            tmpFlightCards.sort( airlineSort );
+        if ( x == 2 )
+            tmpFlightCards.sort( departureSort );
+        if ( x == 3 )
+            tmpFlightCards.sort( arrivalSort );
+        if ( x == 4 )
+            tmpFlightCards.sort( costSort );
+    }
+}
+function departFilterHelper( x ){
+}
+function costFilterHelper( x ){
+    var a, b;
+    if ( x != 0 ){
+        if ( x == 1 ){
+            a = '$0';
+            b = '$500';
+        }
+        if ( x == 2 ){
+            a = '$500';
+            b = '$1000';
+        }
+        if ( x == 3 ){
+            a = '$1000';
+            b = '$100000';
+        }
+        for ( i = 0; i < tmpFlightCards.length; i++ ){
+            if ( (tmpFlightCards[i]).cost < a || (tmpFlightCards[i]).cost > b ){
+                tmpFlightCards.splice(i,1);
+            }
+        }
+    }
 }
