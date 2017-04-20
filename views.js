@@ -11,11 +11,31 @@ var costFilter = [ 0, 0, 0 ];
 // The javascript code responsible for index.html and everything it displays
 var flightSearchView = Backbone.View.extend({
 	initialize: function(){
-		this.render();
+        //add the search template to the dom
+        if ($(window).width() > 800){
+            this.$el.append(flightSearchTemplate());
+        }
+        else {
+            this.$el.append(mobileFlightSearchTemplate());
+        }
+        this.render();
+        var _this = this;
+        /*$(window).on('resize orientationChange', function(event) {
+            
+            console.log('resized');
+
+            if ($(window).width() > 800){
+                $(".flightsearch").append(flightSearchTemplate());
+                _this.render();
+            }
+            else{
+                $(".flightsearch").append(mobileFlightSearchTemplate());
+                _this.render();
+            }
+       })*/
+
 	},
 	render: function(){
-		//add the search template to the dom
-		this.$el.append(flightSearchTemplate());
 		// for each valid us airport in the json list of airports, add it to the dropdown
 		$.getJSON(airplaneSource, function(json) {
 		    _.each(json, function(airport){

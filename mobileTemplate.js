@@ -89,10 +89,12 @@ var mobileFlightSearchTemplate = _.template(`
 					<div class="ui fluid selection dropdown" id="program">
 						<i class="dropdown icon"></i>
 						<div class="default text wspw">Choose one</div>
-						<div class="menu">
-							<div class="item" data-value="-">-</div>
-							<div class="item" data-value="amex">American Express</div>
-						</div>
+                        <div class="menu">
+                            <div class="item" data-value="-">-</div>
+                            <div class="item" data-value="Chase Sapphire Preferred">Chase Sapphire Preferred</div>
+                            <div class="item" data-value="Chase Sapphire Reserve">Chase Sapphire Reserve</div>
+                            <div class="item" data-value="Chase Business Preferred">Chase Business Preferred</div>
+                        </div>
 					</div>
 				</div>
 			</div>
