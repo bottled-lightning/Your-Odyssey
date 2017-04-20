@@ -73,7 +73,9 @@ var flightSearchTemplate = _.template(`
 						<div class="default text wspw">Choose one</div>
 						<div class="menu">
 							<div class="item" data-value="-">-</div>
-							<div class="item" data-value="amex">American Express</div>
+							<div class="item" data-value="chasesp">Chase Sapphire Preferred</div>
+                            <div class="item" data-value="chasesr">Chase Sapphire Reserve</div>
+                            <div class="item" data-value="chasebp">Chase Business Preferred</div>
 						</div>
 					</div>
 				</div>
@@ -204,6 +206,9 @@ var flightCardTemplate=_.template(`
 			</div>
 			<div class="ele">
 				<%= cost %>
+			</div>
+            <div class="ele">
+                <%= points %>
 			</div>
 		</div>
 		<div class="card-row">

@@ -62,7 +62,7 @@ var flightSearchView = Backbone.View.extend({
 });
 
 // This is code that makes the actual AJAX request
-function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE, FlightRequest){
+function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE, FlightRequest, program){
 	var data = {};
 	$.ajax({	
 		//PLEASE DO NOT PUSH API KEYS
@@ -95,6 +95,7 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 					// NOTE: WE NEED TO THEN TRANSLATE A CARRIER ID -> CARRIER NAME
 					airline: airlineStr,
 					cost: trips["tripOption"][i].saleTotal,
+                    points: GetPoints(program, parseInt(trips["tripOption"][i].saleTotal.substr(3))),
 					adults: trips["tripOption"][i]["pricing"]["0"]["passengers"].adultCount,
 					children: trips["tripOption"][i]["pricing"]["0"]["passengers"].childCount
 				}
@@ -210,7 +211,7 @@ var flightSelectorView = Backbone.View.extend({
 			"refundable": false
 		  }
 		}
-		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest);
+		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest, descriptor.program);
 		// This should be the code where we iteratively create
 		// flight cards using the JSON stored as "flights"
 
@@ -231,6 +232,15 @@ var flightSelectorView = Backbone.View.extend({
         //fin
 	}
 });
+
+function GetPoints(program, usd){
+    if(program == "chasesp" || program == "chasebp"){
+        return usd/1.25 * 100;
+    }
+    else if(program == "chasesr"){
+        return usd/1.5 * 100;
+    }
+};
 
 // Sort functions
 function airlineSort(a,b){
