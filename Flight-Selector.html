@@ -38,7 +38,16 @@
 <!-- They will be created as empty divs within the body tags -->
 <script type="text/javascript">
 	$(document).ready( function(){
-		var flightSelector = new flightSelectorView({el: $(".flightSelector")});
+		$.when(
+    		$.getScript( "/templates/flightSelectorTemplate.js" ),
+			$.getScript( "/templates/flightCardTemplate.js" ),
+		    $.getScript( "/views/flightSelectorView.js" ),
+		    $.Deferred(function( deferred ){
+		        $( deferred.resolve );
+		    })
+		).done(function(){
+			var flightSelector = new flightSelectorView({el: $(".flightSelector")});
+		});
 	});
 </script>
 </head>
