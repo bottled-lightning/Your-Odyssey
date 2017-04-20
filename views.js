@@ -76,7 +76,7 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 	var data = {};
 	$.ajax({	
 		//PLEASE DO NOT PUSH API KEYS
-		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=',
+		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyBZf3vCUJ_eeaaidE9pQ10n4BM-HoNBoCM',
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(FlightRequest),
@@ -88,21 +88,25 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 				trips["tripOption"][i]["slice"]["0"]["segment"].forEach(function(e){
 						airlineStr += e["leg"]["0"].destination + " ";
 				});
-				var timeStr = "";
+				var departureTimeStr = "";
 				trips["tripOption"][i]["slice"]["0"]["segment"].forEach(function(e){
-						timeStr += e["leg"]["0"].departureTime + " ";
+						departureTimeStr += e["leg"]["0"].departureTime + " ";
+				});
+                var arrivalTimeStr = "";
+				trips["tripOption"][i]["slice"]["0"]["segment"].forEach(function(e){
+						arrivalTimeStr += e["leg"]["0"].arrivalTime + " ";
 				});
    			flightCards.push(
 				{
 					departingLoc: OUTBOUND_LOCATION,
 					arrivalLoc: INBOUND_LOCATION,
-					departingTime: timeStr,
-					returnTime: 'need to add',
+					departingTime: departureTimeStr,
+					returnTime: arrivalTimeStr,
 					// NOTE: WE NEED TO THEN TRANSLATE A CARRIER ID -> CARRIER NAME
 					airline: airlineStr,
 					cost: trips["tripOption"][i].saleTotal,
-					adults: '1',
-					children: '1'
+					adults: trips["tripOption"][i]["pricing"]["0"]["passengers"].adultCount,
+					children: trips["tripOption"][i]["pricing"]["0"]["passengers"].childCount
 				}
 			);
             for ( i = 0; i < flightCards.length; i++ ){
