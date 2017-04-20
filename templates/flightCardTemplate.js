@@ -1,3 +1,5 @@
+//A template that determines the display of each individual flight card
+//Is called when a new card needs to be made.
 var flightCardTemplate=_.template(`
 	<div class="flightCard">
 		<div class="card-top">

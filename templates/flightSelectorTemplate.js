@@ -1,3 +1,4 @@
+//Template for the header bar on the search results page
 var flightSelectorTemplate=_.template(`
 	<img src="images/background.jpg" class="splash">
 	<div class="column-display">

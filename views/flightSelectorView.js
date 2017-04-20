@@ -134,7 +134,7 @@ var flightSelectorView = Backbone.View.extend({
           .not($(this))          //assert that we aren't selecting the currently selected element
           .removeClass('active');//remove previous select highlight
       });
-
+      
       $('#airline').click(function(){
           view.sortHelper(view.sortAirline);
       });
@@ -149,11 +149,13 @@ var flightSelectorView = Backbone.View.extend({
               return true;
           });
       });
+      //filters time from 12:00 am to 1159 am
       $('#morning').click(function(){
           view.timeFilterHelper(function(t){
               return ( t > 0000 && t < 1159 );
           });
       });
+      //filters time from 12:00 pm to 5:59pm
       $('#afternoon').click(function(){
           view.timeFilterHelper(function(t){
               return ( t > 1200 && t < 1759 );
