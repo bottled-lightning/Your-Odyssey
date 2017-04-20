@@ -4,11 +4,8 @@ var flightCardTemplate=_.template(`
 			<div class="ele flight-airline">
 				<%= airline %>
 			</div>
-			<div class="ele flight-cost">
-				<%= cost %>
-			</div>
-            <div class="ele">
-                <%= points %>
+            <div class="ele flight-airline">
+				<%= flightNumber %>
 			</div>
 		</div>
 		<div class="card-row">
@@ -23,10 +20,20 @@ var flightCardTemplate=_.template(`
 			<div class="ele flight-departure">
 				Departing: <%= departingTime %>
 			</div>
-			<div class="ele">
+			
+            <div class="ele flight-cost">
+				<%= cost %>
+			</div>
+            
+		</div>
+        <div class="card-row">
+            <div class="ele">
 				Returning: <%= returnTime %>
 			</div>
-		</div>
+            <div class="ele">
+                <%= points %>
+			</div>
+        </div>
 		<div class="card-bottom">
 			<div class="ele">
 				From <%= departingLoc %> to <%= arrivalLoc %>

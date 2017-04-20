@@ -7,11 +7,12 @@ var flightSelectorView = Backbone.View.extend({
       $.ajax({    
           //PLEASE DO NOT PUSH API KEYS
           //In reality this query should have a backend passthrough that appends the api key
-          url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyBZf3vCUJ_eeaaidE9pQ10n4BM-HoNBoCM',
+          url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyCaVC_P0wwlbmupmvp9ZUxk1n3vf7Vt1jw',
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(FlightRequest),
           success: function(data){
+              console.log(data);
               var trips = data["trips"];
               //console.log(trips);
               for (i = 0; i < trips["tripOption"].length; i++) {
@@ -34,7 +35,8 @@ var flightSelectorView = Backbone.View.extend({
                           departingTime: departureTimeStr,
                           returnTime: arrivalTimeStr,
                           // NOTE: WE NEED TO THEN TRANSLATE A CARRIER ID -> CARRIER NAME
-                          airline: airlineStr,
+                          airline: AirlineCodes[trips["tripOption"][i]["slice"]["0"]["segment"]["0"]["flight"].carrier].Name,
+                          flightNumber: "Flight #".concat(trips["tripOption"][i]["slice"]["0"]["segment"]["0"]["flight"].number),
                           cost: trips["tripOption"][i].saleTotal,
                           points: view.getPoints(program, parseInt(trips["tripOption"][i].saleTotal.substr(3))),
                           adults: trips["tripOption"][i]["pricing"]["0"]["passengers"].adultCount,
@@ -199,10 +201,10 @@ var flightSelectorView = Backbone.View.extend({
             }
           ],
           "passengers": {
-            "adultCount": descriptor.adults,
+            "adultCount": parseInt(descriptor.adults),
             "infantInLapCount": 0,
             "infantInSeatCount": 0,
-            "childCount": descriptor.children,
+            "childCount": parseInt(descriptor.children),
             "seniorCount": 0
           },
           "solutions": 20,
@@ -268,3 +270,30 @@ var flightSelectorView = Backbone.View.extend({
       view.makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], FlightRequest, descriptor.program);
   }
 });
+
+ var AirlineCodes = { 
+    "AS" : {
+        "Name" : "Alaskan Airlines"
+    },
+    "B6" : {
+        "Name" : "Jetblue"
+    },
+    "VX" : {
+        "Name" : "Virgin America"
+    },
+    "SY" : {
+        "Name" : "Sun Country"
+    },
+    "WN" : {
+        "Name" : "Southwest Airlines"
+    },
+    "AA" : {
+        "Name" : "American Airlines"
+    },
+    "DL" : {
+        "Name" : "Delta Airlines"
+    },
+    "UN" : {
+        "Name" : "United Airlines"
+    }
+};
