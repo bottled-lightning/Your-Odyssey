@@ -66,7 +66,7 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 	var data = {};
 	$.ajax({	
 		//PLEASE DO NOT PUSH API KEYS
-		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyBZf3vCUJ_eeaaidE9pQ10n4BM-HoNBoCM',
+		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=',
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(FlightRequest),
@@ -161,6 +161,22 @@ var flightSelectorView = Backbone.View.extend({
                 $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
             }
         });
+        $('#noneT').click(function(){
+        });
+        $('#morning').click(function(){
+        });
+        $('#afternoon').click(function(){
+        });
+        $('#evening').click(function(){
+        });
+        $('#noneC').click(function(){
+        });
+        $('#low').click(function(){
+        });
+        $('#med').click(function(){
+        });
+        $('#high').click(function(){
+        });
 		var descriptor=null; //the parameters passed to the page if any
 		// check if sessionstorage exists
 		if (window.sessionStorage){
@@ -211,23 +227,24 @@ var flightSelectorView = Backbone.View.extend({
 			"refundable": false
 		  }
 		}
-		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest, descriptor.program);
+		//makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest, descriptor.program);
 		// This should be the code where we iteratively create
 		// flight cards using the JSON stored as "flights"
 
         // Dummy
         /*flightCards.push(
 			{
-				departingLoc: 'ABL-Ambler Airport',
-				arrivalLoc: 'ADK-Adak Airport',
-				departingTime: '3/30/2017 3:40pm',
-				returnTime: '3/30/2017 6:10pm',
+				departingLoc: 'John F Kennedy International Airport',
+				arrivalLoc: 'Los Angeles International Airport',
+				departingTime: '3/22/2017 3:40pm',
+				returnTime: '3/23/2017 6:10pm',
 				airline: 'Zalking',
 				cost: '$100',
 				adults: '1',
 				children: '0'
 			}
-		);*/
+		);
+        $('.flight-bin').append(flightCardTemplate( flightCards[0] ));*/
 
         //fin
 	}
