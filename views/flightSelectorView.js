@@ -63,39 +63,41 @@ var flightSelectorView = Backbone.View.extend({
           }
       });
   },
-  sortHelper: function(sortFunc){
+  sortHelper: function(sortFunc){ // Pass in sort parameter and sorts flight cards
       var view=this;
       var $flights=$('.flight-bin').children();
       [].sort.call($flights, sortFunc);
-      $flights.each(function(){
+      $flights.each(function(){ // Sorts children and re-appends to DOM
           $('.flight-bin').append(this);
       });
   },
-  sortCost: function(a, b){
-      var aCost=parseInt($(a).find('.flight-cost').text().trim().replace('USD',''));
+  sortCost: function(a, b){ // Function to compare Cost of two flight cards
+      var aCost=parseInt($(a).find('.flight-cost').text().trim().replace('USD','')); // Parsing
       var bCost=parseInt($(b).find('.flight-cost').text().trim().replace('USD',''));
       return aCost-bCost;
   },
-  sortDeparture: function(a, b){
-      var aTime=$(a).find('.flight-departure').text().trim();
+  sortDeparture: function(a, b){ // Function to compare Departure Time of two flight cards
+      var aTime=$(a).find('.flight-departure').text().trim();// Parsing
       var bTime=$(b).find('.flight-departure').text().trim();
       return aTime.localeCompare(bTime);
   },
-  sortAirline: function(a, b){
-      var aLine=$(a).find('.flight-airline').text().trim();
+  sortAirline: function(a, b){ // Function to compare the Airline of two flight cards
+      var aLine=$(a).find('.flight-airline').text().trim();// Parsing
       var bLine=$(b).find('.flight-airline').text().trim();
       return aLine.localeCompare(bLine);
   },
-  costFilterHelper: function(criteriaFunc){
+  // Filter function that hides all flight cards and then shows only flight cards thar meet the criteria
+  costFilterHelper: function(criteriaFunc){ 
       $('.flight-bin').children().addClass('filter-cost');
-      $('.flight-bin').children().filter(function(i){
+      $('.flight-bin').children().filter(function(i){ // Parsing is needed to make accurate commparison
           var c=parseInt($(this).find('.flight-cost').text().trim().replace('USD',''));
           return criteriaFunc(c);
       }).removeClass('filter-cost');
   },
+  // Does same thing as costFilterHelper but for Departure Time
   timeFilterHelper: function(criteriaFunc){
       $('.flight-bin').children().addClass('filter-time');
-      $('.flight-bin').children().filter(function(i){
+      $('.flight-bin').children().filter(function(i){ // Parsing is needed to make accurate commparison
           var c=$(this).find('.flight-departure').text().trim();
           var departT='';
           for ( var j = 11; j <= 15; j++ )
@@ -106,7 +108,7 @@ var flightSelectorView = Backbone.View.extend({
           return criteriaFunc(timeInt);
       }).removeClass('filter-time');
   },
-  getPoints: function(program, usd){
+  getPoints: function(program, usd){ // Converts USD to points based on program
       if(program == "Chase Sapphire Preferred" || program == "Chase Business Preferred"){
           return usd/1.25 * 100;
       }
@@ -135,17 +137,17 @@ var flightSelectorView = Backbone.View.extend({
           .removeClass('active');//remove previous select highlight
       });
       
-      $('#airline').click(function(){
+      $('#airline').click(function(){ // Captures click of airline sort button
           view.sortHelper(view.sortAirline);
       });
-      $('#departure').click(function(){
+      $('#departure').click(function(){ // Captures click of departure time sort button
           view.sortHelper(view.sortDeparture);
       });
-      $('#cost').click(function(){
+      $('#cost').click(function(){ // Captures click of cost sort button
           view.sortHelper(view.sortCost);
       });
-      $('#noneT').click(function(){
-          view.timeFilterHelper(function(t){
+      $('#noneT').click(function(){ // Captures click of no departure time filter button
+          view.timeFilterHelper(function(t){ // takes off any departure time filter previously enabled
               return true;
           });
       });
@@ -161,22 +163,23 @@ var flightSelectorView = Backbone.View.extend({
               return ( t > 1200 && t < 1759 );
           });
       });
+      //filters time from 18:00 pm to 23:59pm
       $('#evening').click(function(){
           view.timeFilterHelper(function(t){
               return ( t > 1800 && t < 2359 );
           });
       });
-      $('#noneC').click(function(){
-          view.costFilterHelper(function(a){
+      $('#noneC').click(function(){ // Captures click of no departure time filter button
+          view.costFilterHelper(function(a){ // takes off any cost filter previously enabled
               return true;
           });
       });
-      $('#low').click(function(){
+      $('#low').click(function(){ // Filters cost for less than $500
           view.costFilterHelper(function(a){
               return a<500;
           });
       });
-      $('#med').click(function(){
+      $('#med').click(function(){ // Filters cost for less than $1000
           view.costFilterHelper(function(a){
               return a<1000;
           });
@@ -226,10 +229,11 @@ var flightSelectorView = Backbone.View.extend({
           "refundable": false
         }
       }
-      
+      // Calls API to get flight information
       view.makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], FlightRequest, descriptor.program);
   }
 });
+// Google flight number
 bookExternal = function(airline, flightNumber){
     flightNumber = flightNumber.trim();
     airline = airline.replace(/\s/g, '');
@@ -239,6 +243,7 @@ bookExternal = function(airline, flightNumber){
     console.log(query);
     window.open(query);
  };
+// Contanier to help translate carrier code to airline
  var AirlineCodes = { 
     "AS" : {
         "Name" : "Alaskan Airlines"
