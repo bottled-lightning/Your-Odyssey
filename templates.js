@@ -90,15 +90,6 @@ var flightSearchTemplate = _.template(`
 					    </div>
 					</div>
 				</div>
-				<div class="wrapper-static">
-					<label class="white">Returning</label>
-					<div class="ui fluid calendar" id="returning">
-					    <div class="ui input left icon">
-					    <i class="calendar icon"></i>
-					    <input type="text" placeholder="Date">
-					    </div>
-					</div>
-				</div>
 				<div class="wrapper">
 					<label></label>
 					<br>
@@ -176,18 +167,15 @@ var flightSelectorTemplate=_.template(`
 				<div class="filter-bar">
 					<div class="ui text menu dense">
 						<div class="header item">Sort By</div>
-				        <button class="trans" id='airline'>
+				        <a class="item" id='airline'>
                             Airline
-                        </button>
-                        <button class="trans" id='arrival'>
-                            Arrival time
-                        </button>
-                        <button class="trans" id='departure'>
+                        </a>
+                        <a class="item" id='departure'>
                             Departure time
-                        </button>
-                        <button class="trans" id='cost'>
+                        </a>
+                        <a class="item" id='cost'>
                             Cost
-                        </button>
+                        </a>
                         <div class="header item">Filter By</div>
                         <div class="ui selection dropdown">
                             <i class="dropdown icon"></i>
@@ -203,10 +191,9 @@ var flightSelectorTemplate=_.template(`
                             <i class="dropdown icon"></i>
                             <div class="default text">Cost</div>
                             <div class="menu">
-                                <div class="item" id="noneC">Cost</div>
+                                <div class="item" id="noneC">All costs</div>
                                 <div class="item" id="low">$0 - $500</div>
-                                <div class="item" id="med">$500 - $1000</div>
-                                <div class="item" id="high">$1000+</div>
+                                <div class="item" id="med">$0 - $1000</div>
                             </div>
                         </div>
 					</div>
@@ -222,10 +209,10 @@ var flightSelectorTemplate=_.template(`
 var flightCardTemplate=_.template(`
 	<div class="flightCard">
 		<div class="card-top">
-			<div class="ele">
+			<div class="ele flight-airline">
 				<%= airline %>
 			</div>
-			<div class="ele">
+			<div class="ele flight-cost">
 				<%= cost %>
 			</div>
             <div class="ele">
@@ -241,7 +228,7 @@ var flightCardTemplate=_.template(`
 			</div>
 		</div>
 		<div class="card-row">
-			<div class="ele">
+			<div class="ele flight-departure">
 				Departing: <%= departingTime %>
 			</div>
 			<div class="ele">
