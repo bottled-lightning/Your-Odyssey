@@ -104,9 +104,9 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 					children: trips["tripOption"][i]["pricing"]["0"]["passengers"].childCount
 				}
 			);
-            for ( i = 0; i < flightCards.length; i++ ){
-                $('.flight-bin').append( flightCardTemplate( flightCards[i] ) );
-            }
+            tmpFlightCards = flightCards.slice(0);
+            for ( i = 0; i < tmpFlightCards.length; i++ )
+                $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
 		}
 			
 		},
@@ -441,16 +441,22 @@ function departFilterHelper( x ){
     var a, b;
     if ( x != 0 ){
         if ( x == 1 ){
-            // Need Format to make comparisons !!!!!!!
+            a = '05:00';
+            b = '11:59';
         }
         if ( x == 2 ){
-            
+            a = '12:00';
+            b = '17:59';
         }
         if ( x == 3 ){
-            
+            a = '18:00';
+            b = '23:59';
         }
         for ( i = 0; i < tmpFlightCards.length; i++ ){
-            if ( tmpFlightCards[i].departingTime < a || tmpFlightCards[i].departingTime > b )
+            var departT = '';
+            for ( var j = 11; j < 15; j++ )
+                departT = departT.concat( (tmpFlightCards[i].departingTime)[j] );
+            if ( departT < a || departT > b )
                 tmpFlightCards.splice(i,1);
         }
     }
