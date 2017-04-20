@@ -306,7 +306,7 @@ var flightSelectorView = Backbone.View.extend({
 		// flight cards using the JSON stored as "flights"
 
         // Dummy
-        flightCards.push(
+        /*flightCards.push(
 			{
 				departingLoc: 'John F Kennedy International Airport',
 				arrivalLoc: 'Los Angeles International Airport',
@@ -359,8 +359,8 @@ var flightSelectorView = Backbone.View.extend({
 			}
 		);
         tmpFlightCards = flightCards.slice(0);
-        for ( i = 0; i < flightCards.length; i++ )
-            $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
+        for ( i = 0; i < tmpFlightCards.length; i++ )
+            $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );*/
         //fin
 	}
 });
@@ -397,9 +397,11 @@ function arrivalSort(a,b){
     return 0;
 }
 function costSort(a,b){
-    if ( a.cost < b.cost )
+    var aCost = parseInt( (a.cost).replace('$', '') );
+    var bCost = parseInt( (b.cost).replace('$', '') );
+    if ( aCost < bCost )
         return -1;
-    if ( a.cost > b.cost )
+    if ( aCost > bCost )
         return 1;
     return 0;
 }
@@ -436,26 +438,42 @@ function sortFilterHelper( x ){
     }
 }
 function departFilterHelper( x ){
+    var a, b;
+    if ( x != 0 ){
+        if ( x == 1 ){
+            // Need Format to make comparisons !!!!!!!
+        }
+        if ( x == 2 ){
+            
+        }
+        if ( x == 3 ){
+            
+        }
+        for ( i = 0; i < tmpFlightCards.length; i++ ){
+            if ( tmpFlightCards[i].departingTime < a || tmpFlightCards[i].departingTime > b )
+                tmpFlightCards.splice(i,1);
+        }
+    }
 }
 function costFilterHelper( x ){
     var a, b;
     if ( x != 0 ){
         if ( x == 1 ){
-            a = '$0';
-            b = '$500';
+            a = 0;
+            b = 500;
         }
         if ( x == 2 ){
-            a = '$500';
-            b = '$1000';
+            a = 500;
+            b = 1000;
         }
         if ( x == 3 ){
-            a = '$1000';
-            b = '$100000';
+            a = 1000;
+            b = 100000;
         }
         for ( i = 0; i < tmpFlightCards.length; i++ ){
-            if ( (tmpFlightCards[i]).cost < a || (tmpFlightCards[i]).cost > b ){
+            var x = parseInt( (tmpFlightCards[i].cost).replace('$', '') );
+            if ( x < a || x > b )
                 tmpFlightCards.splice(i,1);
-            }
         }
     }
 }
