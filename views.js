@@ -234,10 +234,10 @@ var flightSelectorView = Backbone.View.extend({
 });
 
 function GetPoints(program, usd){
-    if(program == "chasesp" || program == "chasebp"){
+    if(program == "Chase Sapphire Preferred" || program == "Chase Business Preferred"){
         return usd/1.25 * 100;
     }
-    else if(program == "chasesr"){
+    else if(program == "Chase Sapphire Reserve"){
         return usd/1.5 * 100;
     }
 };
