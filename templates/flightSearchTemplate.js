@@ -28,9 +28,9 @@ var flightSearchTemplate = _.template(`
 					<label class="white">Adults (18+)</label>
 					<div class="ui selection fluid dropdown" id="adults">
 						<i class="dropdown icon"></i>
-						<div class="default text">1</div>
+						<div class="text">1</div>
 						<div class="menu">
-							<div class="item" data-value="1">1</div>
+							<div class="item active selected" data-value="1">1</div>
 							<div class="item" data-value="2">2</div>
 							<div class="item" data-value="3">3</div>
 							<div class="item" data-value="4">4</div>
@@ -43,9 +43,9 @@ var flightSearchTemplate = _.template(`
 					<label class="white">Children (0-17)</label>
 					<div class="ui fluid selection dropdown" id="children">
 						<i class="dropdown icon"></i>
-						<div class="default text">0</div>
+						<div class="text">0</div>
 						<div class="menu">
-							<div class="item" data-value="0">0</div>
+							<div class="item active selected" data-value="0">0</div>
 							<div class="item" data-value="1">1</div>
 							<div class="item" data-value="2">2</div>
 							<div class="item" data-value="3">3</div>
