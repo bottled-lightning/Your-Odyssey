@@ -3,7 +3,7 @@
 var mobileFlightSearchTemplate = _.template(`
 	<img src="images/background.jpg" class="splash">
 	<div class="mobile-selector-card">
-		<div class="title">Your Odyssey MOBILE</div>
+		<div class="title">Your Odyssey</div>
 		<div class="ui form">
 			<div class="row">
 				<div class="wrapper-wide">
