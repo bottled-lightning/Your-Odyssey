@@ -89,7 +89,8 @@ var flightSearchView = Backbone.View.extend({
 function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE, FlightRequest, program){
 	var data = {};
 	$.ajax({	
-		//PLEASE DO NOT PUSH API KEYS
+        //PLEASE DO NOT PUSH API KEYS
+        //In reality this query should have a backend passthrough that appends the api key
 		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyBZf3vCUJ_eeaaidE9pQ10n4BM-HoNBoCM',
 		type: 'POST',
 		contentType: 'application/json',
@@ -132,6 +133,7 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 		},
 		error: function(data) {
 			console.log(data);
+            window.alert('Flight query failed. Try again later.');
 		}
 	});
 };
@@ -148,15 +150,16 @@ var flightSelectorView = Backbone.View.extend({
 		$('.ui.dropdown')
 			.dropdown()
 		;
-		// enable selection of menu items even if they don't do things yet
+		// enable highlighting of selected menu items
 		$('.menu a.item').click(function(){
 	        $(this)
-	        .addClass('active')
-	        .closest('.ui.menu')
-	        .find('.item')
-	        .not($(this))
-	        .removeClass('active');
+	        .addClass('active')    //add highlighting to the selected element  
+	        .closest('.ui.menu')   //find containing menu
+	        .find('.item')         //other items elements aren't necessarily siblings in the dom, so find all child elements
+	        .not($(this))          //assert that we aren't selecting the currently selected element
+	        .removeClass('active');//remove previous select highlight
 		});
+
         $('#airline').click(function(){
             if ( sortFilter[0] != 1 ){
                 for ( i = 0; i < sortFilter.length; i++ )
@@ -242,6 +245,9 @@ var flightSelectorView = Backbone.View.extend({
                     $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );
         });
         $('#low').click(function(){
+            console.log(costFilter);
+            console.log(sortFilter);
+            console.log(departureFilter);
             if ( costFilter[0] != 1 ){
                 for ( i = 0; i < costFilter.length; i++ )
                     costFilter[i] = 0;
@@ -278,10 +284,11 @@ var flightSelectorView = Backbone.View.extend({
 		}
 		// check if we have meaningful results from session storage
 		if(descriptor==null){
+            //we haven't received a descriptor. Alert user.
 			window.alert("The search parameters were not properly passed on.\nPlease try searching again.");
 		}
 		else{
-			// unpack the parameters for the search and echo them
+			// unpack the parameters for the search and display them in fields for the user to confirm intended search
 			descriptor=JSON.parse(descriptor);
 			$('#from').text(descriptor.from);
 			$('#to').text(descriptor.to);
@@ -294,12 +301,6 @@ var flightSelectorView = Backbone.View.extend({
 
 		// Request is made
 		var flights;
-		//response_data, OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND_DATE
-		// console.log(descriptor.departing.split('T')[0]);
-		// console.log(descriptor.returning.split('T')[0]);
-		console.log(descriptor.from);
-		console.log(descriptor.to);
-		console.log(descriptor.departing.split('T')[0]);
 		var FlightRequest = 
 		{
 		  "request": {
@@ -321,67 +322,7 @@ var flightSelectorView = Backbone.View.extend({
 			"refundable": false
 		  }
 		}
-		//makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest, descriptor.program);
-		// This should be the code where we iteratively create
-		// flight cards using the JSON stored as "flights"
-
-        // Dummy
-        /*flightCards.push(
-			{
-				departingLoc: 'John F Kennedy International Airport',
-				arrivalLoc: 'Los Angeles International Airport',
-				departingTime: '3/22/2017 3:40pm',
-				returnTime: '3/23/2017 6:10pm',
-				airline: 'Zalking',
-				cost: '$100',
-                points: "Chase Sapphire Preferred",
-				adults: '1',
-				children: '0'
-			}
-		);
-        flightCards.push(
-			{
-				departingLoc: 'John F Kennedy International Airport',
-				arrivalLoc: 'Los Angeles International Airport',
-				departingTime: '3/22/2017 3:40pm',
-				returnTime: '3/23/2017 6:10pm',
-				airline: 'Zalking',
-				cost: '$50',
-                points: "Chase Sapphire Preferred",
-				adults: '1',
-				children: '0'
-			}
-		);
-        flightCards.push(
-			{
-				departingLoc: 'John F Kennedy International Airport',
-				arrivalLoc: 'Los Angeles International Airport',
-				departingTime: '3/22/2017 3:40pm',
-				returnTime: '3/23/2017 6:10pm',
-				airline: 'Zalking',
-				cost: '$10',
-                points: "Chase Sapphire Preferred",
-				adults: '1',
-				children: '0'
-			}
-		);
-        flightCards.push(
-			{
-				departingLoc: 'John F Kennedy International Airport',
-				arrivalLoc: 'Los Angeles International Airport',
-				departingTime: '3/22/2017 3:40pm',
-				returnTime: '3/23/2017 6:10pm',
-				airline: 'Zalking',
-				cost: '$999',
-                points: "Chase Sapphire Preferred",
-				adults: '1',
-				children: '0'
-			}
-		);
-        tmpFlightCards = flightCards.slice(0);
-        for ( i = 0; i < tmpFlightCards.length; i++ )
-            $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );*/
-        //fin
+		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest, descriptor.program);
 	}
 });
 
