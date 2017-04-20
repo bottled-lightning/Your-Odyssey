@@ -7,7 +7,7 @@ var flightSelectorView = Backbone.View.extend({
       $.ajax({    
           //PLEASE DO NOT PUSH API KEYS
           //In reality this query should have a backend passthrough that appends the api key
-          url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyCaVC_P0wwlbmupmvp9ZUxk1n3vf7Vt1jw',
+          url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyDk1wWH9nVv_QzJJmc-aHr7eaUpslumw1U',
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(FlightRequest),
@@ -28,17 +28,27 @@ var flightSelectorView = Backbone.View.extend({
                   trips["tripOption"][i]["slice"]["0"]["segment"].forEach(function(e){
                           arrivalTimeStr += e["leg"]["0"].arrivalTime + " ";
                   });
+                  
+                  arrivalTimeDate = arrivalTimeStr.split('T')[0];
+                  arrivalTimeStr = arrivalTimeStr.split('T')[1];
+                  arrivalTimeStr = arrivalTimeStr.split('-')[0];
+                  arrivalTimeDate = arrivalTimeDate.concat(" ", arrivalTimeStr);
+                  departureTimeDate = departureTimeStr.split('T')[0];
+                  departureTimeStr = departureTimeStr.split('T')[1];
+                  departureTimeStr = departureTimeStr.split('-')[0];
+                  departureTimeDate = departureTimeDate.concat(" ", departureTimeStr);
                   flightCards.push(
                       {
                           departingLoc: OUTBOUND_LOCATION,
                           arrivalLoc: INBOUND_LOCATION,
-                          departingTime: departureTimeStr,
-                          returnTime: arrivalTimeStr,
+                          departingTime: departureTimeDate,
+                          returnTime: arrivalTimeDate,
                           // NOTE: WE NEED TO THEN TRANSLATE A CARRIER ID -> CARRIER NAME
                           airline: AirlineCodes[trips["tripOption"][i]["slice"]["0"]["segment"]["0"]["flight"].carrier].Name,
                           flightNumber: "Flight #".concat(trips["tripOption"][i]["slice"]["0"]["segment"]["0"]["flight"].number),
                           cost: trips["tripOption"][i].saleTotal,
-                          points: view.getPoints(program, parseInt(trips["tripOption"][i].saleTotal.substr(3))),
+                          points: Math.round(view.getPoints(program, parseInt(trips["tripOption"][i].saleTotal.substr(3)))),
+                          airports: airlineStr,
                           adults: trips["tripOption"][i]["pricing"]["0"]["passengers"].adultCount,
                           children: trips["tripOption"][i]["pricing"]["0"]["passengers"].childCount
                       }
@@ -88,9 +98,12 @@ var flightSelectorView = Backbone.View.extend({
       $('.flight-bin').children().filter(function(i){
           var c=$(this).find('.flight-departure').text().trim();
           var departT='';
-          for ( var j = 11; j < 15; j++ )
+          for ( var j = 11; j <= 15; j++ )
               departT = departT.concat( c[j] );
-          return criteriaFunc(departT);
+          timeStr = departT.split(":")[0];
+          timeStr = timeStr.concat(departT.split(":")[1]);
+          timeInt = parseInt(timeStr);
+          return criteriaFunc(timeInt);
       }).removeClass('filter-time');
   },
   getPoints: function(program, usd){
@@ -138,17 +151,17 @@ var flightSelectorView = Backbone.View.extend({
       });
       $('#morning').click(function(){
           view.timeFilterHelper(function(t){
-              return ( t < "05:00" || t > "11:59" );
+              return ( t > 0000 && t < 1159 );
           });
       });
       $('#afternoon').click(function(){
           view.timeFilterHelper(function(t){
-              return ( t < "12:00" || t > "17:59" );
+              return ( t > 1200 && t < 1759 );
           });
       });
       $('#evening').click(function(){
           view.timeFilterHelper(function(t){
-              return ( t < "18:00" || t > "23:59" );
+              return ( t > 1800 && t < 2359 );
           });
       });
       $('#noneC').click(function(){
@@ -166,7 +179,6 @@ var flightSelectorView = Backbone.View.extend({
               return a<1000;
           });
       });
-
       //handle flight request unpacking
       var descriptor=null; //the parameters passed to the page if any
       // check if sessionstorage exists
@@ -197,7 +209,8 @@ var flightSelectorView = Backbone.View.extend({
             {
               "origin": descriptor.from,
               "destination": descriptor.to,
-              "date": descriptor.departing.split('T')[0]
+              "date": descriptor.departing.split('T')[0],
+              "maxStops" : 0
             }
           ],
           "passengers": {
@@ -211,66 +224,19 @@ var flightSelectorView = Backbone.View.extend({
           "refundable": false
         }
       }
-      /*
-      flightCards.push(
-         {
-             departingLoc: 'John F Kennedy International Airport',
-             arrivalLoc: 'Los Angeles International Airport',
-             departingTime: '3/22/2017 3:40pm',
-             returnTime: '3/23/2017 6:10pm',
-             airline: 'Fuck',
-             cost: '$100',
-               points: "Chase Sapphire Preferred",
-             adults: '1',
-             children: '0'
-         }
-     );
-       flightCards.push(
-         {
-             departingLoc: 'John F Kennedy International Airport',
-             arrivalLoc: 'Los Angeles International Airport',
-             departingTime: '3/22/2017 3:40pm',
-             returnTime: '3/23/2017 6:10pm',
-             airline: 'Zalking',
-             cost: '$600',
-               points: "Chase Sapphire Preferred",
-             adults: '1',
-             children: '0'
-         }
-     );
-       flightCards.push(
-         {
-             departingLoc: 'John F Kennedy International Airport',
-             arrivalLoc: 'Los Angeles International Airport',
-             departingTime: '3/22/2017 3:40pm',
-             returnTime: '3/23/2017 6:10pm',
-             airline: 'Zalking',
-             cost: '$10',
-               points: "Chase Sapphire Preferred",
-             adults: '1',
-             children: '0'
-         }
-     );
-       flightCards.push(
-         {
-             departingLoc: 'John F Kennedy International Airport',
-             arrivalLoc: 'Los Angeles International Airport',
-             departingTime: '3/22/2017 2:40pm',
-             returnTime: '3/23/2017 5:10pm',
-             airline: 'Zalking',
-             cost: '$999',
-               points: "Chase Sapphire Preferred",
-             adults: '1',
-             children: '0'
-         }
-     );
-       tmpFlightCards = flightCards.slice(0);
-       for ( i = 0; i < tmpFlightCards.length; i++ )
-           $('.flight-bin').append( flightCardTemplate( tmpFlightCards[i] ) );*/
+      
       view.makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], FlightRequest, descriptor.program);
   }
 });
-
+bookExternal = function(airline, flightNumber){
+    flightNumber = flightNumber.trim();
+    airline = airline.replace(/\s/g, '');
+    flightNumber = flightNumber.replace("#", "%23");
+    flightNumber = flightNumber.replace(/\s/g, '');
+    query = "https://www.google.com/#q=".concat(airline, "+", flightNumber);
+    console.log(query);
+    window.open(query);
+ };
  var AirlineCodes = { 
     "AS" : {
         "Name" : "Alaskan Airlines"

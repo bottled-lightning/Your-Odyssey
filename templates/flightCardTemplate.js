@@ -4,7 +4,7 @@ var flightCardTemplate=_.template(`
 			<div class="ele flight-airline">
 				<%= airline %>
 			</div>
-            <div class="ele flight-airline">
+            <div class="ele flight-number">
 				<%= flightNumber %>
 			</div>
 		</div>
@@ -17,9 +17,14 @@ var flightCardTemplate=_.template(`
 			</div>
 		</div>
 		<div class="card-row">
-			<div class="ele flight-departure">
-				Departing: <%= departingTime %>
-			</div>
+            <div class="ele">
+                <div class="ele">
+                    Departing:
+                </div>
+                <div class="ele flight-departure">
+                    <%= departingTime %>
+                </div>
+            </div>
 			
             <div class="ele flight-cost">
 				<%= cost %>
@@ -28,17 +33,25 @@ var flightCardTemplate=_.template(`
 		</div>
         <div class="card-row">
             <div class="ele">
-				Returning: <%= returnTime %>
-			</div>
+                <div class="ele">
+                    Arrival:
+                </div>
+                <div class="ele flight-departure">
+                    <%= returnTime %>
+                </div>
+            </div>
             <div class="ele">
-                <%= points %>
+                Points: <%= points %>
 			</div>
         </div>
 		<div class="card-bottom">
 			<div class="ele">
 				From <%= departingLoc %> to <%= arrivalLoc %>
 			</div>
-			<button class="ui mini dense compact button icon">
+            <div class="ele">
+				Airports: <%= airports %>
+			</div>
+			<button class="ui mini dense compact button icon" onclick="bookExternal(this.parentNode.parentNode.children[0].children[0].innerHTML,this.parentNode.parentNode.children[0].children[1].innerHTML)">
 				<i class="icon external square"></i>
 			</button>
 		</div>

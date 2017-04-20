@@ -71,7 +71,7 @@ var flightSelectorTemplate=_.template(`
 	                            <div class="default text">Departure Time</div>
 	                            <div class="menu">
 	                                <div class="item" id="noneT">Departure Time</div>
-	                                <div class="item" id="morning">Morning (5:00a - 11:59a)</div>
+	                                <div class="item" id="morning">Morning (00:00a - 11:59a)</div>
 	                                <div class="item" id="afternoon">Afternoon (12:00p - 5:59p)</div>
 	                                <div class="item" id="evening">Evening (6:00p - 11:59p)</div>
 	                            </div>
