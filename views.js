@@ -28,23 +28,13 @@ var flightSearchView = Backbone.View.extend({
 		});
 		// When we click the find flight button save our parameters to sessionstorage so we can echo them on the next page
 		$('#search').click(function(){
-			// NOTE: very strange bug?
-			// certain combinations of airports seems to make the date error message go off
-			// example:
-			// ADK -> ABL
-			// Adults: 1
-			// Children: 0
-			// Departing: April 22, 2017
-			// Returning: April 23, 2017
-			if ($('#departing').dropdown('get value') > $('#returning').dropdown('get value')){
+			if ($('#departing').calendar('get date') > $('#returning').calendar('get date')){
                 console.log('dates error'),
-                console.log('depart is: '),
-                console.log($('#from').dropdown('get value')),
 				window.alert("You cannot DEPART after your RETURN date.\nPlease select a valid pair of dates.");
 			}
-			//else if($('#from').dropdown('get value') == $('#to').dropdown('get value')){
-			//	window.alert("You have selected the same outbound and inbound airports.\nPlease select a valid pair of airports.");
-			//}
+			else if($('#from').dropdown('get value') == $('#to').dropdown('get value')){
+				window.alert("You have selected the same outbound and inbound airports.\nPlease select a valid pair of airports.");
+			}
 			// Not sure how either of these two cases will happen... but just in case I guess
 			else if($('#adults').dropdown('get value') < 0){
 				window.alert("You have selected an invalid value for number of adults.\nPlease try selecting the number of adult passengers again.");
@@ -76,7 +66,7 @@ function makeRequest(OUTBOUND_LOCATION, INBOUND_LOCATION, OUTBOUND_DATE, INBOUND
 	var data = {};
 	$.ajax({	
 		//PLEASE DO NOT PUSH API KEYS
-		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=',
+		url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyBZf3vCUJ_eeaaidE9pQ10n4BM-HoNBoCM',
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(FlightRequest),
@@ -220,8 +210,6 @@ var flightSelectorView = Backbone.View.extend({
 			"refundable": false
 		  }
 		}
-        console.log(descriptor.adults),
-        console.log(descriptor.children),
 		makeRequest(descriptor.from, descriptor.to, descriptor.departing.split('T')[0], descriptor.returning.split('T')[0], FlightRequest);
 		// This should be the code where we iteratively create
 		// flight cards using the JSON stored as "flights"
