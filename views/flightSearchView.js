@@ -1,10 +1,12 @@
-/*
-	* Description: This page handles the javascript logic for index.html
-*/
-
 //serving as a semi-static config section
 airplaneSource="airportlist.json"; //the file that we will use as a source for airport data
 
+
+/*
+* Description: Handles the JavaScript for the index.html page
+* Parameters: None
+* Return: None
+*/
 var flightSearchView = Backbone.View.extend({
 	/*
 	* Description: Called when the view is first added to the dom

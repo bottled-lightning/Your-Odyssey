@@ -53,7 +53,7 @@ var flightCardTemplate=_.template(`
             <div class="ele">
 				Airports: <%= airports %>
 			</div>
-			<button class="ui mini dense compact button icon" onclick="bookExternal(this.parentNode.parentNode.children[0].children[0].innerHTML,this.parentNode.parentNode.children[0].children[1].innerHTML)">
+			<button class="ui mini dense compact button icon booking">
 				<i class="icon external square"></i>
 			</button>
 		</div>
