@@ -1,4 +1,8 @@
-//Template for the header bar on the search results page
+/*
+* Description: The template that giverns how Flight-Selector.html looks
+* Parameters: None
+* Return: The html to be appended to the page
+*/
 var flightSelectorTemplate=_.template(`
 	<img src="images/background.jpg" class="splash">
 	<div class="column-display">

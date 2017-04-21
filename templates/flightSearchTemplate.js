@@ -1,3 +1,8 @@
+/*
+* Description: The template that giverns how index.html looks
+* Parameters: None
+* Return: The html to be appended to the page
+*/
 var flightSearchTemplate = _.template(`
 	<img src="images/background.jpg" class="splash">
 	<div class="selector-card">

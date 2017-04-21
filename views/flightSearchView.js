@@ -1,7 +1,6 @@
 //serving as a semi-static config section
 airplaneSource="airportlist.json"; //the file that we will use as a source for airport data
 
-
 /*
 * Description: Handles the JavaScript for the index.html page
 * Parameters: None

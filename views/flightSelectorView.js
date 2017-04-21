@@ -1,7 +1,3 @@
-/*
-* Description: Handles the javascript for the Flight-Selector.html page
-*/
-
 var flightCards = []; // Information for flights, is appended to by makeRequest
 var AirlineCodes = {  //A lookup JSON to convert airline codes to their human-readable names
     "AS" : {

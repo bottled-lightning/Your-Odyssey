@@ -1,5 +1,8 @@
-//A template that determines the display of each individual flight card
-//Is called when a new card needs to be made.
+/*
+* Description: The template that giverns how an individual flight is rendered
+* Parameters: a hash that represents the data that the flight contains
+* Return: The html to be appended to the page
+*/
 var flightCardTemplate=_.template(`
 	<div class="flightCard">
 		<div class="card-top">
