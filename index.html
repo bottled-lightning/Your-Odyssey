@@ -35,9 +35,9 @@
 <script type="text/javascript">
 	$(document).ready( function(){
 		$.when(
-		    $.getScript( "/views/flightSearchView.js" ),
-    		$.getScript( "/templates/airportTemplate.js" ),
-			$.getScript( "/templates/flightSearchTemplate.js" ),
+		    $.getScript( "views/flightSearchView.js" ),
+			$.getScript( "templates/airportTemplate.js" ),
+			$.getScript( "templates/flightSearchTemplate.js" ),
 		    $.Deferred(function( deferred ){
 		        $( deferred.resolve );
 		    })
