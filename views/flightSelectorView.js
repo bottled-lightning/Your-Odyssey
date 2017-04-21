@@ -59,7 +59,7 @@ var flightSelectorView = Backbone.View.extend({
       $.ajax({    
           //PLEASE DO NOT PUSH API KEYS
           //In reality this query should have a backend passthrough that appends the api key
-          url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyDk1wWH9nVv_QzJJmc-aHr7eaUpslumw1U',
+          url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=',
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(FlightRequest),
