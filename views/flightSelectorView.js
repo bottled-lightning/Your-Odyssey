@@ -28,6 +28,7 @@ var AirlineCodes = {  //A lookup JSON to convert airline codes to their human-re
 
 var flightSelectorView = Backbone.View.extend({
   /*
+  * Note: Currently experimental, will likely change
   * Description: Googles the corresponding flight so that the user may book it externally at the moment
   * Parameters:
   * airline: The human readable name of the airline offering the flight
