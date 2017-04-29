@@ -4,7 +4,7 @@ var AirlineCodes = {  //A lookup JSON to convert airline codes to their human-re
         "Name" : "Alaskan Airlines"
     },
     "B6" : {
-        "Name" : "Jetblue"
+        "Name" : "JetBlue"
     },
     "VX" : {
         "Name" : "Virgin America"
